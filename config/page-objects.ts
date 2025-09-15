@@ -74,3 +74,132 @@ export class NavigationPage extends BasePage {
     await this.waitForTimeout();
   }
 }
+
+/**
+ * User Creation Page Object
+ */
+export class UserCreationPage extends BasePage {
+  async navigateToNewRecord(): Promise<void> {
+    await this.page.getByRole('link', { name: 'New record F2' }).click();
+  }
+
+  async fillUserDetails(userData: {
+    lastName: string;
+    firstName: string;
+    phone: string;
+    cordless: string;
+    title: string;
+  }): Promise<void> {
+    // Fill last name
+    await this.page.locator(locators.userCreation.lastNameField).click();
+    await this.page.locator(locators.userCreation.lastNameField).fill(userData.lastName);
+    await this.waitForTimeout(2000);
+    await this.page.locator(locators.userCreation.lastNameField).press('Tab');
+    
+    // Fill first name
+    await this.page.locator(locators.userCreation.firstNameField).fill(userData.firstName);
+    await this.waitForTimeout(2000);
+    
+    // Fill phone
+    await this.page.locator(locators.userCreation.phoneField).click();
+    await this.waitForTimeout(2000);
+    await this.page.locator(locators.userCreation.phoneField).fill(userData.phone);
+    await this.waitForTimeout(2000);
+    
+    // Check secret phone using robust checkbox handler
+    await this.handleCheckbox(locators.userCreation.secretPhoneCheckbox, true);
+    
+    // Fill cordless
+    await this.page.locator(locators.userCreation.cordlessField).click();
+    await this.waitForTimeout(2000);
+    await this.page.locator(locators.userCreation.cordlessField).fill(userData.cordless);
+    
+    // Check secret cordless using robust checkbox handler
+    await this.handleCheckbox(locators.userCreation.secretCordlessCheckbox, true);
+    
+    // Fill title
+    await this.page.locator(locators.userCreation.titleField).click();
+    await this.page.locator(locators.userCreation.titleField).fill(userData.title);
+  }
+
+  async saveRecord(): Promise<void> {
+    await this.page.getByRole('button', { name: 'Save' }).click();
+    await this.waitForTimeout(2000);
+  }
+
+  async searchUser(searchTerm: string): Promise<void> {
+    await this.page.goto('http://10.211.63.208/CMG.DM/subsform/Index?recordid=1025&currtab=subsform');
+    await this.page.locator(locators.userCreation.quickSearchField).click();
+    await this.page.locator(locators.userCreation.quickSearchField).fill(searchTerm);
+    await this.page.locator(locators.userCreation.quickSearchField).press('Enter');
+  }
+
+  /**
+   * Helper method to handle checkbox interactions with fallback options
+   */
+  async handleCheckbox(selector: string, shouldCheck: boolean = true): Promise<void> {
+    const checkbox = this.page.locator(selector);
+    
+    try {
+      // First, try the standard check/uncheck
+      const isChecked = await checkbox.isChecked();
+      
+      if (shouldCheck && !isChecked) {
+        await checkbox.check();
+      } else if (!shouldCheck && isChecked) {
+        await checkbox.uncheck();
+      }
+      
+      // Verify the state changed
+      await this.waitForTimeout(500);
+      const newState = await checkbox.isChecked();
+      
+      if (newState !== shouldCheck) {
+        // Fallback: try clicking directly
+        await checkbox.click({ force: true });
+        await this.waitForTimeout(500);
+      }
+    } catch (error) {
+      // Final fallback: use force click
+      console.log(`Checkbox interaction failed, using force click: ${error}`);
+      await checkbox.click({ force: true });
+      await this.waitForTimeout(500);
+    }
+  }
+
+  /**
+   * Simplified user details filling without checkbox interactions for testing
+   */
+  async fillUserDetailsSimple(userData: {
+    lastName: string;
+    firstName: string;
+    phone: string;
+    cordless: string;
+    title: string;
+  }): Promise<void> {
+    // Fill last name
+    await this.page.locator(locators.userCreation.lastNameField).click();
+    await this.page.locator(locators.userCreation.lastNameField).fill(userData.lastName);
+    await this.waitForTimeout(2000);
+    await this.page.locator(locators.userCreation.lastNameField).press('Tab');
+    
+    // Fill first name
+    await this.page.locator(locators.userCreation.firstNameField).fill(userData.firstName);
+    await this.waitForTimeout(2000);
+    
+    // Fill phone
+    await this.page.locator(locators.userCreation.phoneField).click();
+    await this.waitForTimeout(2000);
+    await this.page.locator(locators.userCreation.phoneField).fill(userData.phone);
+    await this.waitForTimeout(2000);
+    
+    // Fill cordless
+    await this.page.locator(locators.userCreation.cordlessField).click();
+    await this.waitForTimeout(2000);
+    await this.page.locator(locators.userCreation.cordlessField).fill(userData.cordless);
+    
+    // Fill title
+    await this.page.locator(locators.userCreation.titleField).click();
+    await this.page.locator(locators.userCreation.titleField).fill(userData.title);
+  }
+}

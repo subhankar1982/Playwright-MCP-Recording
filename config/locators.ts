@@ -17,6 +17,18 @@ export interface AppLocators {
     searchField: string;
     searchButton: string;
   };
+  userCreation: {
+    newRecordLink: string;
+    lastNameField: string;
+    firstNameField: string;
+    phoneField: string;
+    secretPhoneCheckbox: string;
+    cordlessField: string;
+    secretCordlessCheckbox: string;
+    titleField: string;
+    saveButton: string;
+    quickSearchField: string;
+  };
 }
 
 export const locators: AppLocators = {
@@ -32,5 +44,17 @@ export const locators: AppLocators = {
   search: {
     searchField: '[id="1lname"]',
     searchButton: 'button[name="Search"]'
+  },
+  userCreation: {
+    newRecordLink: 'link[name="New record F2"]',
+    lastNameField: '[id="3lname"]',
+    firstNameField: '[id="3fname"]',
+    phoneField: '[id="3telno"]',
+    secretPhoneCheckbox: 'input[name="3secret_phone"]',
+    cordlessField: '[id="3cordless"]',
+    secretCordlessCheckbox: 'input[name="3secret_cordless"]',
+    titleField: 'input[name="3misc15"]',
+    saveButton: 'button[name="Save"]',
+    quickSearchField: '#txtQuickSearch'
   }
 };
