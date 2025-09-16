@@ -10,6 +10,7 @@ Main configuration file containing:
 - **credentials**: Username and password for login
 - **timeouts**: Default timeout values
 - **testData**: Test-specific data like search queries
+- **userData**: User creation form data (lastName, firstName, phone, cordless, title)
 
 ### `locators.ts`
 Contains all page element selectors organized by functionality:

@@ -14,19 +14,13 @@ test('New user creation', async ({ page }) => {
   await helpers.userCreationPage.navigateToNewRecord();
   
   // Fill user details using page object
-  await helpers.userCreationPage.fillUserDetails({
-    lastName: 'dey',
-    firstName: 'Swhetanshu',
-    phone: '98748',
-    cordless: '43565678',
-    title: 'CFO'
-  });
+  await helpers.userCreationPage.fillUserDetails(config.userData);
   
   // Save the record
   await helpers.userCreationPage.saveRecord();
   
-  // Search for the created user
-  await helpers.userCreationPage.searchUser('dey');
+  // Search for the created user (using lastName from config)
+  await helpers.userCreationPage.searchUser(config.userData.lastName);
   
   // Logout
   await helpers.logout();

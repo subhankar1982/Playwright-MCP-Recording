@@ -11,6 +11,13 @@ export interface TestConfig {
   testData: {
     searchQuery: string;
   };
+  userData: {
+    lastName: string;
+    firstName: string;
+    phone: string;
+    cordless: string;
+    title: string;
+  };
 }
 
 export const config: TestConfig = {
@@ -25,6 +32,13 @@ export const config: TestConfig = {
   },
   testData: {
     searchQuery: '*'
+  },
+  userData: {
+    lastName: 'dey-biswas',
+    firstName: 'Swhetanshu',
+    phone: '9874338',
+    cordless: '4354565678',
+    title: 'CTO'
   }
 };
 
@@ -54,6 +68,13 @@ export function getConfig(env: string = 'development'): TestConfig {
     },
     testData: {
       searchQuery: process.env.SEARCH_QUERY || baseConfig.testData.searchQuery,
+    },
+    userData: {
+      lastName: process.env.USER_LASTNAME || baseConfig.userData.lastName,
+      firstName: process.env.USER_FIRSTNAME || baseConfig.userData.firstName,
+      phone: process.env.USER_PHONE || baseConfig.userData.phone,
+      cordless: process.env.USER_CORDLESS || baseConfig.userData.cordless,
+      title: process.env.USER_TITLE || baseConfig.userData.title,
     }
   };
 }
