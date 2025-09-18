@@ -11,6 +11,7 @@ Main configuration file containing:
 - **timeouts**: Default timeout values
 - **testData**: Test-specific data like search queries
 - **userData**: User creation form data (lastName, firstName, phone, cordless, title)
+- **advancedSearchData**: Advanced search parameters (field selections, operators, change field, date value)
 
 ### `locators.ts`
 Contains all page element selectors organized by functionality:
@@ -24,6 +25,7 @@ Page Object Model implementation with classes for:
 - **LoginPage**: Login page actions
 - **SearchPage**: Search page actions  
 - **NavigationPage**: Navigation and common actions
+- **AdvancedSearchPage**: Advanced search and bulk update actions
 
 ### `test-helpers.ts`
 High-level test helper functions that combine page objects for common workflows

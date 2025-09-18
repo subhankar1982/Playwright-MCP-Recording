@@ -1,18 +1,20 @@
 import { Page } from '@playwright/test';
 import { TestConfig } from './test-config';
-import { LoginPage, SearchPage, NavigationPage, UserCreationPage } from './page-objects';
+import { LoginPage, SearchPage, NavigationPage, UserCreationPage, AdvancedSearchPage } from './page-objects';
 
 export class TestHelpers {
   public loginPage: LoginPage;
   public searchPage: SearchPage;
   public navigationPage: NavigationPage;
   public userCreationPage: UserCreationPage;
+  public advancedSearchPage: AdvancedSearchPage;
 
   constructor(private page: Page, private config: TestConfig) {
     this.loginPage = new LoginPage(page, config);
     this.searchPage = new SearchPage(page, config);
     this.navigationPage = new NavigationPage(page, config);
     this.userCreationPage = new UserCreationPage(page, config);
+    this.advancedSearchPage = new AdvancedSearchPage(page, config);
   }
 
   /**

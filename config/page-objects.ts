@@ -13,7 +13,13 @@ export class BasePage {
   }
 
   async waitForTimeout(timeout?: number): Promise<void> {
-    await this.page.waitForTimeout(timeout || this.config.timeouts.default);
+    const actualTimeout = timeout || this.config.timeouts.default;
+    const finalTimeout = this.config.slowMode?.enabled 
+      ? Math.round(actualTimeout * (this.config.slowMode?.multiplier || 1.5))
+      : actualTimeout;
+    
+    console.log(`⏱️  Waiting ${finalTimeout}ms...`);
+    await this.page.waitForTimeout(finalTimeout);
   }
 }
 
@@ -22,21 +28,31 @@ export class BasePage {
  */
 export class LoginPage extends BasePage {
   async fillUsername(username?: string): Promise<void> {
+    console.log('🔐 Filling username...');
     await this.page.getByRole('textbox', { name: 'User Name' }).click();
+    await this.waitForTimeout(this.config.timeouts.step);
     await this.page.getByRole('textbox', { name: 'User Name' }).fill(username || this.config.credentials.username);
+    await this.waitForTimeout(this.config.timeouts.slow);
   }
 
   async fillPassword(password?: string): Promise<void> {
+    console.log('🔑 Filling password...');
+    await this.page.getByRole('textbox', { name: 'Password' }).click();
+    await this.waitForTimeout(this.config.timeouts.step);
     await this.page.getByRole('textbox', { name: 'Password' }).fill(password || this.config.credentials.password);
+    await this.waitForTimeout(this.config.timeouts.slow);
   }
 
   async clickLogin(): Promise<void> {
+    console.log('🚀 Clicking login button...');
     await this.page.getByRole('button', { name: ' Log in' }).click();
+    await this.waitForTimeout(this.config.timeouts.slow);
   }
 
   async login(username?: string, password?: string): Promise<void> {
     await this.fillUsername(username);
     await this.page.getByRole('textbox', { name: 'User Name' }).press('Tab');
+    await this.waitForTimeout(this.config.timeouts.step);
     await this.fillPassword(password);
     await this.clickLogin();
   }
@@ -47,21 +63,29 @@ export class LoginPage extends BasePage {
  */
 export class SearchPage extends BasePage {
   async navigateToSearch(): Promise<void> {
+    console.log('🔍 Navigating to search...');
     await this.page.getByRole('link', { name: 'Search record F9' }).click();
+    await this.waitForTimeout(this.config.timeouts.slow);
   }
 
   async fillSearchField(query?: string): Promise<void> {
+    console.log('📝 Filling search field...');
+    await this.page.locator(locators.search.searchField).click();
+    await this.waitForTimeout(this.config.timeouts.step);
     await this.page.locator(locators.search.searchField).fill(query || this.config.testData.searchQuery);
+    await this.waitForTimeout(this.config.timeouts.slow);
   }
 
   async clickSearch(): Promise<void> {
+    console.log('🔎 Performing search...');
     await this.page.getByRole('button', { name: 'Search' }).click();
+    await this.waitForTimeout(this.config.timeouts.slow);
   }
 
   async performSearch(query?: string): Promise<void> {
     await this.fillSearchField(query);
     await this.clickSearch();
-    await this.waitForTimeout();
+    await this.waitForTimeout(this.config.timeouts.slow);
   }
 }
 
@@ -86,7 +110,9 @@ export class NavigationPage extends BasePage {
  */
 export class UserCreationPage extends BasePage {
   async navigateToNewRecord(): Promise<void> {
+    console.log('➕ Navigating to new record creation...');
     await this.page.getByRole('link', { name: 'New record F2' }).click();
+    await this.waitForTimeout(this.config.timeouts.slow);
   }
 
   async fillUserDetails(userData: {
@@ -98,34 +124,41 @@ export class UserCreationPage extends BasePage {
   }): Promise<void> {
     // Fill last name
     await this.page.locator(locators.userCreation.lastNameField).click();
+    await this.waitForTimeout(this.config.timeouts.step);
     await this.page.locator(locators.userCreation.lastNameField).fill(userData.lastName);
-    await this.waitForTimeout(1000);
+    await this.waitForTimeout(this.config.timeouts.slow);
     await this.page.locator(locators.userCreation.lastNameField).press('Tab');
+    await this.waitForTimeout(this.config.timeouts.step);
     
     // Fill first name
     await this.page.locator(locators.userCreation.firstNameField).fill(userData.firstName);
-    await this.waitForTimeout(1000);
+    await this.waitForTimeout(this.config.timeouts.slow);
     
     // Fill phone
     await this.page.locator(locators.userCreation.phoneField).click();
-    await this.waitForTimeout(1000);
+    await this.waitForTimeout(this.config.timeouts.step);
     await this.page.locator(locators.userCreation.phoneField).fill(userData.phone);
-    await this.waitForTimeout(1000);
+    await this.waitForTimeout(this.config.timeouts.slow);
     
     // Check secret phone using robust checkbox handler
     await this.handleCheckbox(locators.userCreation.secretPhoneCheckbox, true);
+    await this.waitForTimeout(this.config.timeouts.step);
     
     // Fill cordless
     await this.page.locator(locators.userCreation.cordlessField).click();
-    await this.waitForTimeout(1000);
+    await this.waitForTimeout(this.config.timeouts.step);
     await this.page.locator(locators.userCreation.cordlessField).fill(userData.cordless);
+    await this.waitForTimeout(this.config.timeouts.slow);
     
     // Check secret cordless using robust checkbox handler
     await this.handleCheckbox(locators.userCreation.secretCordlessCheckbox, true);
+    await this.waitForTimeout(this.config.timeouts.step);
     
     // Fill title
     await this.page.locator(locators.userCreation.titleField).click();
+    await this.waitForTimeout(this.config.timeouts.step);
     await this.page.locator(locators.userCreation.titleField).fill(userData.title);
+    await this.waitForTimeout(this.config.timeouts.slow);
   }
 
   async saveRecord(): Promise<void> {
@@ -212,5 +245,80 @@ export class UserCreationPage extends BasePage {
     // Fill title
     await this.page.locator(locators.userCreation.titleField).click();
     await this.page.locator(locators.userCreation.titleField).fill(userData.title);
+  }
+}
+
+/**
+ * Advanced Search Page Object
+ */
+export class AdvancedSearchPage extends BasePage {
+  async navigateToAdvancedSearch(): Promise<void> {
+    console.log('🔍📋 Navigating to advanced search...');
+    await this.page.getByRole('link', { name: 'Advanced Search Alt+' }).click();
+    await this.waitForTimeout(this.config.timeouts.slow);
+  }
+
+  async performAdvancedSearch(searchData: {
+    field1: string;
+    field2: string;
+    operator3: string;
+    field3: string;
+    operator4: string;
+    field4: string;
+  }): Promise<void> {
+    // Select radio button
+    await this.page.getByRole('radio').nth(1).check();
+    await this.waitForTimeout(this.config.timeouts.step);
+    
+    // Fill search fields with minimal delays
+    await this.page.locator(locators.advancedSearch.field1).selectOption(searchData.field1);
+    await this.page.locator(locators.advancedSearch.field2).selectOption(searchData.field2);
+    await this.page.locator(locators.advancedSearch.operator3).selectOption(searchData.operator3);
+    await this.page.locator(locators.advancedSearch.field3).selectOption(searchData.field3);
+    await this.waitForTimeout(this.config.timeouts.step);
+    
+    // Select radio button for field 3
+    await this.page.locator('input[name="radio3"]').nth(1).check();
+    await this.waitForTimeout(this.config.timeouts.step);
+    
+    await this.page.locator(locators.advancedSearch.operator4).selectOption(searchData.operator4);
+    await this.page.locator(locators.advancedSearch.field4).selectOption(searchData.field4);
+    await this.waitForTimeout(this.config.timeouts.step);
+    
+    // Perform search
+    await this.page.getByRole('button', { name: 'Search' }).click();
+    await this.waitForTimeout(this.config.timeouts.slow);
+  }
+
+  async selectAllAndChange(): Promise<void> {
+    await this.page.getByRole('button', { name: 'Select All' }).click();
+    await this.waitForTimeout(this.config.timeouts.step);
+    await this.page.getByRole('button', { name: 'Change selected' }).click();
+    await this.waitForTimeout(this.config.timeouts.slow);
+  }
+
+  async changeFieldAndSave(changeField: string, dateValue: string): Promise<void> {
+    await this.page.locator('select[name="field"]').selectOption(changeField);
+    await this.waitForTimeout(this.config.timeouts.step);
+    await this.page.getByRole('link', { name: dateValue }).click();
+    await this.waitForTimeout(this.config.timeouts.step);
+    await this.page.getByRole('button', { name: 'Save' }).click();
+    await this.waitForTimeout(this.config.timeouts.slow);
+  }
+
+  async performCompleteAdvancedSearchFlow(searchData: {
+    field1: string;
+    field2: string;
+    operator3: string;
+    field3: string;
+    operator4: string;
+    field4: string;
+    changeField: string;
+    dateValue: string;
+  }): Promise<void> {
+    await this.navigateToAdvancedSearch();
+    await this.performAdvancedSearch(searchData);
+    await this.selectAllAndChange();
+    await this.changeFieldAndSave(searchData.changeField, searchData.dateValue);
   }
 }
