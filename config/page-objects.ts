@@ -1,4 +1,5 @@
 import { Page } from '@playwright/test';
+import { expect } from '@playwright/test';
 import { locators } from './locators';
 import { TestConfig } from './test-config';
 
@@ -320,5 +321,166 @@ export class AdvancedSearchPage extends BasePage {
     await this.performAdvancedSearch(searchData);
     await this.selectAllAndChange();
     await this.changeFieldAndSave(searchData.changeField, searchData.dateValue);
+  }
+}
+
+/**
+ * Organization Page Object
+ */
+export class OrganizationPage extends BasePage {
+  async navigateToOrganization(): Promise<void> {
+    console.log('🏢 Navigating to Organization section...');
+    await this.page.getByRole('link', { name: 'Organization ' }).click();
+    await this.page.waitForLoadState('networkidle', { timeout: 5000 });
+    await this.waitForTimeout(this.config.timeouts.slow);
+  }
+
+  async navigateToNewOrganization(): Promise<void> {
+    console.log('➕ Creating new organization...');
+    await this.page.getByRole('link', { name: 'New Organization' }).click();
+    await this.waitForTimeout(this.config.timeouts.slow);
+  }
+
+  async fillOrganizationDetails(organizationData: {
+    description: string;
+    org1: string;
+    org2: string;
+    phoneNumber: string;
+    altDescription: string;
+    greeting: string;
+    miscText: string;
+    grammar: string;
+  }): Promise<void> {
+    // Fill description
+    await this.page.locator('#newdescriptionInput').click();
+    await this.waitForTimeout(this.config.timeouts.step);
+    await this.page.locator('#newdescriptionInput').fill(organizationData.description);
+    await this.waitForTimeout(this.config.timeouts.step);
+    await this.page.locator('#newdescriptionInput').press('Tab');
+    await this.waitForTimeout(this.config.timeouts.step);
+
+    // Fill org1
+    await this.page.locator('input[name="neworg1Input"]').fill(organizationData.org1);
+    await this.waitForTimeout(this.config.timeouts.step);
+    await this.page.locator('input[name="neworg1Input"]').press('Tab');
+    await this.waitForTimeout(this.config.timeouts.step);
+
+    // Fill org2
+    await this.page.locator('input[name="neworg2Input"]').fill(organizationData.org2);
+    await this.waitForTimeout(this.config.timeouts.step);
+    await this.page.locator('input[name="neworg2Input"]').press('Tab');
+    await this.waitForTimeout(this.config.timeouts.step);
+
+    // Fill phone number
+    await this.page.locator('input[name="newphonenumberInput"]').fill(organizationData.phoneNumber);
+    await this.waitForTimeout(this.config.timeouts.step);
+    await this.page.locator('input[name="newphonenumberInput"]').press('Tab');
+    await this.waitForTimeout(this.config.timeouts.step);
+
+    // Fill alt description
+    await this.page.locator('#newaltdescriptionInput').fill(organizationData.altDescription);
+    await this.waitForTimeout(this.config.timeouts.step);
+    await this.page.locator('#newaltdescriptionInput').press('Tab');
+    await this.waitForTimeout(this.config.timeouts.step);
+
+    // Fill greeting
+    await this.page.locator('input[name="newgreetingInput"]').fill(organizationData.greeting);
+    await this.waitForTimeout(this.config.timeouts.step);
+    await this.page.locator('input[name="newgreetingInput"]').press('Tab');
+    await this.waitForTimeout(this.config.timeouts.step);
+
+    // Fill misc text
+    await this.page.locator('textarea[name="newmisctextInput"]').fill(organizationData.miscText);
+    await this.waitForTimeout(this.config.timeouts.step);
+    await this.page.locator('textarea[name="newmisctextInput"]').press('Tab');
+    await this.waitForTimeout(this.config.timeouts.step);
+
+    // Fill grammar
+    await this.page.locator('textarea[name="newgrammarInput"]').fill(organizationData.grammar);
+    await this.waitForTimeout(this.config.timeouts.step);
+  }
+
+  async saveOrganization(): Promise<void> {
+    console.log('💾 Saving organization...');
+    await this.page.getByRole('button', { name: 'OK' }).click();
+    await this.waitForTimeout(this.config.timeouts.slow);
+
+    await this.page.getByRole('button', { name: 'Save' }).click();
+    await this.page.waitForLoadState('networkidle', { timeout: 10000 });
+  }
+
+  async createOrganization(organizationData: {
+    description: string;
+    org1: string;
+    org2: string;
+    phoneNumber: string;
+    altDescription: string;
+    greeting: string;
+    miscText: string;
+    grammar: string;
+  }): Promise<void> {
+    await this.navigateToOrganization();
+    await this.navigateToNewOrganization();
+    await this.fillOrganizationDetails(organizationData);
+    await this.saveOrganization();
+  }
+
+  async navigateToOrganizationSearch(): Promise<void> {
+    console.log('🔍 Navigating to Organization Search & Update...');
+    await this.page.getByRole('link', { name: 'Search & Update' }).click();
+    await this.page.waitForLoadState('networkidle', { timeout: 5000 });
+    await this.waitForTimeout(this.config.timeouts.slow);
+  }
+
+  async searchAndSelectOrganization(searchDescription: string): Promise<void> {
+    console.log(`🔍 Searching for organization: ${searchDescription}`);
+    await this.page.getByRole('cell', { name: searchDescription, exact: true }).click();
+    await this.waitForTimeout(this.config.timeouts.slow);
+  }
+
+  async verifyOrganizationDetails(searchData: {
+    expectedDescription: string;
+    expectedPhoneNumber: string;
+    expectedGreeting: string;
+    expectedOrg2: string;
+  }): Promise<void> {
+    console.log('✅ Verifying organization details...');
+    
+    await expect(this.page.locator('input[name="description"]')).toHaveValue(searchData.expectedDescription);
+    await this.waitForTimeout(this.config.timeouts.step);
+    
+    await expect(this.page.locator('input[name="phonenumber"]')).toHaveValue(searchData.expectedPhoneNumber);
+    await this.waitForTimeout(this.config.timeouts.step);
+    
+    await expect(this.page.locator('input[name="greeting"]')).toHaveValue(searchData.expectedGreeting);
+    await this.waitForTimeout(this.config.timeouts.step);
+    
+    await expect(this.page.locator('input[name="org2"]')).toHaveValue(searchData.expectedOrg2);
+    await this.waitForTimeout(this.config.timeouts.step);
+  }
+
+  async searchOrganization(searchData: {
+    searchDescription: string;
+    expectedDescription: string;
+    expectedPhoneNumber: string;
+    expectedGreeting: string;
+    expectedOrg2: string;
+  }): Promise<void> {
+    await this.navigateToOrganization();
+    await this.navigateToOrganizationSearch();
+    await this.searchAndSelectOrganization(searchData.searchDescription);
+    await this.verifyOrganizationDetails(searchData);
+  }
+
+  async deleteOrganization(searchDescription: string): Promise<void> {
+    console.log(`🗑️ Deleting organization: ${searchDescription}`);
+    await this.navigateToOrganization();
+    await this.navigateToOrganizationSearch();
+    await this.searchAndSelectOrganization(searchDescription);
+    await this.page.getByRole('button', { name: 'Delete' }).click();
+    await this.waitForTimeout(this.config.timeouts.slow);
+    await this.page.getByRole('button', { name: 'Save' }).click();
+    await this.page.waitForLoadState('networkidle', { timeout: 10000 });
+    await this.waitForTimeout(this.config.timeouts.slow);
   }
 }

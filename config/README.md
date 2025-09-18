@@ -9,8 +9,11 @@ Main configuration file containing:
 - **baseUrl**: Application URL
 - **credentials**: Username and password for login
 - **timeouts**: Default timeout values
+- **slowMode**: Configuration for slow execution mode
 - **testData**: Test-specific data like search queries
 - **userData**: User creation form data (lastName, firstName, phone, cordless, title)
+- **organizationData**: Organization creation data (description, org1, org2, phoneNumber, altDescription, greeting, miscText, grammar)
+- **organizationSearchData**: Organization search and verification data (searchDescription, expectedDescription, expectedPhoneNumber, expectedGreeting, expectedOrg2)
 - **advancedSearchData**: Advanced search parameters (field selections, operators, change field, date value)
 
 ### `locators.ts`
@@ -25,6 +28,8 @@ Page Object Model implementation with classes for:
 - **LoginPage**: Login page actions
 - **SearchPage**: Search page actions  
 - **NavigationPage**: Navigation and common actions
+- **UserCreationPage**: User creation and management actions
+- **OrganizationPage**: Organization creation, search, and verification actions
 - **AdvancedSearchPage**: Advanced search and bulk update actions
 
 ### `test-helpers.ts`
@@ -33,6 +38,22 @@ High-level test helper functions that combine page objects for common workflows
 ## Environment Support
 
 The configuration supports the development environment with ability to override values via environment variables.
+
+### Organization Data Variables
+- `ORG_DESC`: Organization description
+- `ORG1`, `ORG2`: Organization fields
+- `ORG_PHONE_NUMBER`: Organization phone number
+- `ORG_ALT_DESC`: Alternative description
+- `ORG_GREETING`: Organization greeting
+- `ORG_MISC_TEXT`: Miscellaneous text
+- `ORG_GRAMMAR`: Grammar field
+
+### Organization Search Variables
+- `ORG_SEARCH_DESC`: Search description
+- `ORG_SEARCH_EXPECTED_DESC`: Expected description in results
+- `ORG_SEARCH_EXPECTED_PHONE`: Expected phone number
+- `ORG_SEARCH_EXPECTED_GREETING`: Expected greeting
+- `ORG_SEARCH_EXPECTED_ORG2`: Expected org2 value
 
 ## Usage
 

@@ -34,6 +34,23 @@ export interface TestConfig {
     changeField: string;
     dateValue: string;
   };
+  organizationData: {
+    description: string;
+    org1: string;
+    org2: string;
+    phoneNumber: string;
+    altDescription: string;
+    greeting: string;
+    miscText: string;
+    grammar: string;
+  };
+  organizationSearchData: {
+    searchDescription: string;
+    expectedDescription: string;
+    expectedPhoneNumber: string;
+    expectedGreeting: string;
+    expectedOrg2: string;
+  };
 }
 
 export const config: TestConfig = {
@@ -71,6 +88,23 @@ export const config: TestConfig = {
     field4: '1visitorhostenabled|1|Allow visitor|checkbox',
     changeField: 'actdate|Act Date|10|date|Activation date',
     dateValue: '17'
+  },
+  organizationData: {
+    description: 'AI Testing for MX-ONE',
+    org1: '27',
+    org2: '64',
+    phoneNumber: '9830936989',
+    altDescription: 'this is AI testing for the RnD department',
+    greeting: 'hello welcome to AI testing in the MX-ONE RnD',
+    miscText: 'for the testing purpose only',
+    grammar: 'AI GenAI for testing'
+  },
+  organizationSearchData: {
+    searchDescription: 'AI Testing for MX-ONE',
+    expectedDescription: 'AI Testing for MX-ONE',
+    expectedPhoneNumber: '9830936989',
+    expectedGreeting: 'hello welcome to AI testing in the MX-ONE RnD',
+    expectedOrg2: '64'
   }
 };
 
@@ -123,6 +157,23 @@ export function getConfig(env: string = 'development'): TestConfig {
       field4: process.env.ADV_SEARCH_FIELD4 || baseConfig.advancedSearchData.field4,
       changeField: process.env.ADV_SEARCH_CHANGE_FIELD || baseConfig.advancedSearchData.changeField,
       dateValue: process.env.ADV_SEARCH_DATE_VALUE || baseConfig.advancedSearchData.dateValue,
+    },
+    organizationData: {
+      description: process.env.ORG_DESC || baseConfig.organizationData.description,
+      org1: process.env.ORG1 || baseConfig.organizationData.org1,
+      org2: process.env.ORG2 || baseConfig.organizationData.org2,
+      phoneNumber: process.env.ORG_PHONE_NUMBER || baseConfig.organizationData.phoneNumber,
+      altDescription: process.env.ORG_ALT_DESC || baseConfig.organizationData.altDescription,
+      greeting: process.env.ORG_GREETING || baseConfig.organizationData.greeting,
+      miscText: process.env.ORG_MISC_TEXT || baseConfig.organizationData.miscText,
+      grammar: process.env.ORG_GRAMMAR || baseConfig.organizationData.grammar,
+    },
+    organizationSearchData: {
+      searchDescription: process.env.ORG_SEARCH_DESC || baseConfig.organizationSearchData.searchDescription,
+      expectedDescription: process.env.ORG_SEARCH_EXPECTED_DESC || baseConfig.organizationSearchData.expectedDescription,
+      expectedPhoneNumber: process.env.ORG_SEARCH_EXPECTED_PHONE || baseConfig.organizationSearchData.expectedPhoneNumber,
+      expectedGreeting: process.env.ORG_SEARCH_EXPECTED_GREETING || baseConfig.organizationSearchData.expectedGreeting,
+      expectedOrg2: process.env.ORG_SEARCH_EXPECTED_ORG2 || baseConfig.organizationSearchData.expectedOrg2,
     }
   };
 }
