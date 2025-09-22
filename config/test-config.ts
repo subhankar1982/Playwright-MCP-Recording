@@ -4,6 +4,10 @@ export interface TestConfig {
     username: string;
     password: string;
   };
+  initialCredentials?: {
+    username: string;
+    password: string;
+  };
   timeouts: {
     default: number;
     long: number;
@@ -23,6 +27,9 @@ export interface TestConfig {
     phone: string;
     cordless: string;
     title: string;
+    description: string;  // misc10 field
+    department: string;   // misc11 field
+    extension: string;    // misc18 field
   };
   advancedSearchData: {
     field1: string;
@@ -51,12 +58,22 @@ export interface TestConfig {
     expectedGreeting: string;
     expectedOrg2: string;
   };
+  userSearchUpdateData: {
+    searchQuery: string;
+    targetUser: string;
+    fieldToUpdate: string;
+    checkboxSelector: string;
+  };
 }
 
 export const config: TestConfig = {
   baseUrl: 'http://10.211.63.208/cmg.dm/',
   credentials: {
     username: 'niceadmin',
+    password: 'aastra'
+  },
+  initialCredentials: {
+    username: 'niecadmin',
     password: 'aastra'
   },
   timeouts: {
@@ -73,11 +90,14 @@ export const config: TestConfig = {
     searchQuery: '*'
   },
   userData: {
-    lastName: 'dey-biswas',
-    firstName: 'Swhetanshu',
-    phone: '9874338',
-    cordless: '4354565678',
-    title: 'CTO'
+    lastName: 'Mitra',
+    firstName: 'Shrila',
+    phone: '553484385438342',
+    cordless: '8765535333',
+    title: 'CFO',
+    description: 'hello Mitel',
+    department: 'AI',
+    extension: '876'
   },
   advancedSearchData: {
     field1: '1visitorhostenabled|1|Allow visitor|checkbox',
@@ -105,6 +125,12 @@ export const config: TestConfig = {
     expectedPhoneNumber: '9830936989',
     expectedGreeting: 'hello welcome to AI testing in the MX-ONE RnD',
     expectedOrg2: '64'
+  },
+  userSearchUpdateData: {
+    searchQuery: '*',
+    targetUser: 'Mitra',
+    fieldToUpdate: 'exch_inclfree|Calendar synchronization Show appointments marked as "Free"? - checkbox||checkbox|',
+    checkboxSelector: '#kryssbox'
   }
 };
 
@@ -128,6 +154,10 @@ export function getConfig(env: string = 'development'): TestConfig {
       username: process.env.TEST_USERNAME || baseConfig.credentials.username,
       password: process.env.TEST_PASSWORD || baseConfig.credentials.password,
     },
+    initialCredentials: {
+      username: process.env.INITIAL_TEST_USERNAME || baseConfig.initialCredentials?.username || 'niecadmin',
+      password: process.env.INITIAL_TEST_PASSWORD || baseConfig.initialCredentials?.password || 'aastra',
+    },
     timeouts: {
       default: parseInt(process.env.DEFAULT_TIMEOUT || '') || baseConfig.timeouts.default,
       long: parseInt(process.env.LONG_TIMEOUT || '') || baseConfig.timeouts.long,
@@ -147,6 +177,9 @@ export function getConfig(env: string = 'development'): TestConfig {
       phone: process.env.USER_PHONE || baseConfig.userData.phone,
       cordless: process.env.USER_CORDLESS || baseConfig.userData.cordless,
       title: process.env.USER_TITLE || baseConfig.userData.title,
+      description: process.env.USER_DESCRIPTION || baseConfig.userData.description,
+      department: process.env.USER_DEPARTMENT || baseConfig.userData.department,
+      extension: process.env.USER_EXTENSION || baseConfig.userData.extension,
     },
     advancedSearchData: {
       field1: process.env.ADV_SEARCH_FIELD1 || baseConfig.advancedSearchData.field1,
@@ -174,6 +207,12 @@ export function getConfig(env: string = 'development'): TestConfig {
       expectedPhoneNumber: process.env.ORG_SEARCH_EXPECTED_PHONE || baseConfig.organizationSearchData.expectedPhoneNumber,
       expectedGreeting: process.env.ORG_SEARCH_EXPECTED_GREETING || baseConfig.organizationSearchData.expectedGreeting,
       expectedOrg2: process.env.ORG_SEARCH_EXPECTED_ORG2 || baseConfig.organizationSearchData.expectedOrg2,
+    },
+    userSearchUpdateData: {
+      searchQuery: process.env.USER_SEARCH_QUERY || baseConfig.userSearchUpdateData.searchQuery,
+      targetUser: process.env.USER_SEARCH_TARGET || baseConfig.userSearchUpdateData.targetUser,
+      fieldToUpdate: process.env.USER_SEARCH_FIELD || baseConfig.userSearchUpdateData.fieldToUpdate,
+      checkboxSelector: process.env.USER_SEARCH_CHECKBOX || baseConfig.userSearchUpdateData.checkboxSelector,
     }
   };
 }

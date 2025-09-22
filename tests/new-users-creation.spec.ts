@@ -4,23 +4,11 @@ import { TestHelpers } from '../config/test-helpers';
 
 const config = getConfig(process.env.TEST_ENV);
 
-test('New user creation', async ({ page }) => {
+test('Comprehensive user creation test', async ({ page }) => {
   const helpers = new TestHelpers(page, config);
   
-  // Login to the application
-  await helpers.loginFlow();
-  
-  // Navigate to new record creation
-  await helpers.userCreationPage.navigateToNewRecord();
-  
-  // Fill user details using page object
-  await helpers.userCreationPage.fillUserDetails(config.userData);
-  
-  // Save the record
-  await helpers.userCreationPage.saveRecord();
-  
-  // Search for the created user (using lastName from config)
-  await helpers.userCreationPage.searchUser(config.userData.lastName);
+  // Perform complete user creation flow with parameterized data
+  await helpers.userCreationFlow(config.userData);
   
   // Logout
   await helpers.logout();

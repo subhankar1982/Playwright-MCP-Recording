@@ -26,6 +26,9 @@ export interface AppLocators {
     cordlessField: string;
     secretCordlessCheckbox: string;
     titleField: string;
+    descriptionField: string;
+    departmentField: string;
+    extensionField: string;
     saveButton: string;
     quickSearchField: string;
   };
@@ -44,6 +47,15 @@ export interface AppLocators {
     changeSelectedButton: string;
     changeFieldSelect: string;
     dateLink: string;
+    saveButton: string;
+  };
+  userSearchUpdate: {
+    searchField: string;
+    searchButton: string;
+    targetUserCell: string;
+    changeSelectedButton: string;
+    fieldSelector: string;
+    checkboxSelector: string;
     saveButton: string;
   };
 }
@@ -71,6 +83,9 @@ export const locators: AppLocators = {
     cordlessField: '[id="3cordless"]',
     secretCordlessCheckbox: 'input[name="3secret_cordless"]',
     titleField: 'input[name="3misc15"]',
+    descriptionField: 'textarea[name="3misc10"]',
+    departmentField: 'input[name="3misc11"]',
+    extensionField: 'input[name="3misc18"]',
     saveButton: 'button[name="Save"]',
     quickSearchField: '#txtQuickSearch'
   },
@@ -89,6 +104,15 @@ export const locators: AppLocators = {
     changeSelectedButton: 'button[name="Change selected"]',
     changeFieldSelect: 'select[name="field"]',
     dateLink: 'link',
+    saveButton: 'button[name="Save"]'
+  },
+  userSearchUpdate: {
+    searchField: '[id="1lname"]',
+    searchButton: 'button[name="Search"]',
+    targetUserCell: '[role="cell"]',
+    changeSelectedButton: 'button[name="Change selected"]',
+    fieldSelector: 'select[name="field"]',
+    checkboxSelector: '#kryssbox',
     saveButton: 'button[name="Save"]'
   }
 };

@@ -122,8 +122,14 @@ export class UserCreationPage extends BasePage {
     phone: string;
     cordless: string;
     title: string;
+    description: string;
+    department: string;
+    extension: string;
   }): Promise<void> {
+    console.log('📝 Filling user details...');
+    
     // Fill last name
+    console.log('🏷️ Filling last name...');
     await this.page.locator(locators.userCreation.lastNameField).click();
     await this.waitForTimeout(this.config.timeouts.step);
     await this.page.locator(locators.userCreation.lastNameField).fill(userData.lastName);
@@ -132,40 +138,65 @@ export class UserCreationPage extends BasePage {
     await this.waitForTimeout(this.config.timeouts.step);
     
     // Fill first name
+    console.log('👤 Filling first name...');
     await this.page.locator(locators.userCreation.firstNameField).fill(userData.firstName);
     await this.waitForTimeout(this.config.timeouts.slow);
+    await this.page.locator(locators.userCreation.firstNameField).press('Tab');
+    await this.waitForTimeout(this.config.timeouts.step);
     
     // Fill phone
-    await this.page.locator(locators.userCreation.phoneField).click();
-    await this.waitForTimeout(this.config.timeouts.step);
+    console.log('📞 Filling phone number...');
     await this.page.locator(locators.userCreation.phoneField).fill(userData.phone);
     await this.waitForTimeout(this.config.timeouts.slow);
-    
-    // Check secret phone using robust checkbox handler
-    await this.handleCheckbox(locators.userCreation.secretPhoneCheckbox, true);
+    await this.page.locator(locators.userCreation.phoneField).press('Tab');
     await this.waitForTimeout(this.config.timeouts.step);
     
     // Fill cordless
+    console.log('📱 Filling cordless number...');
     await this.page.locator(locators.userCreation.cordlessField).click();
     await this.waitForTimeout(this.config.timeouts.step);
     await this.page.locator(locators.userCreation.cordlessField).fill(userData.cordless);
     await this.waitForTimeout(this.config.timeouts.slow);
     
-    // Check secret cordless using robust checkbox handler
-    await this.handleCheckbox(locators.userCreation.secretCordlessCheckbox, true);
+    // Fill description (misc10)
+    console.log('📄 Filling description...');
+    await this.page.locator(locators.userCreation.descriptionField).click();
     await this.waitForTimeout(this.config.timeouts.step);
+    await this.page.locator(locators.userCreation.descriptionField).fill(userData.description);
+    await this.waitForTimeout(this.config.timeouts.slow);
     
-    // Fill title
+    // Fill title (misc15)
+    console.log('🎖️ Filling title...');
     await this.page.locator(locators.userCreation.titleField).click();
     await this.waitForTimeout(this.config.timeouts.step);
     await this.page.locator(locators.userCreation.titleField).fill(userData.title);
     await this.waitForTimeout(this.config.timeouts.slow);
+    
+    // Fill department (misc11)
+    console.log('🏢 Filling department...');
+    await this.page.locator(locators.userCreation.departmentField).click();
+    await this.waitForTimeout(this.config.timeouts.step);
+    await this.page.locator(locators.userCreation.departmentField).fill(userData.department);
+    await this.waitForTimeout(this.config.timeouts.slow);
+    
+    // Fill extension (misc18)
+    console.log('☎️ Filling extension...');
+    await this.page.locator(locators.userCreation.extensionField).click();
+    await this.waitForTimeout(this.config.timeouts.step);
+    await this.page.locator(locators.userCreation.extensionField).fill(userData.extension);
+    await this.waitForTimeout(this.config.timeouts.slow);
+    
+    console.log('✅ User details filled successfully!');
   }
 
   async saveRecord(): Promise<void> {
+    console.log('💾 Saving record...');
     await this.page.getByRole('button', { name: 'Save' }).click();
-    // Wait for save to complete with a more reasonable timeout
-    await this.page.waitForLoadState('networkidle', { timeout: 10000 });
+    await this.waitForTimeout(this.config.timeouts.long);
+    // Wait for save to complete with proper network idle state
+    await this.page.waitForLoadState('networkidle', { timeout: 15000 });
+    await this.waitForTimeout(this.config.timeouts.slow);
+    console.log('✅ Record saved successfully!');
   }
 
   async searchUser(searchTerm: string): Promise<void> {
@@ -482,5 +513,88 @@ export class OrganizationPage extends BasePage {
     await this.page.getByRole('button', { name: 'Save' }).click();
     await this.page.waitForLoadState('networkidle', { timeout: 10000 });
     await this.waitForTimeout(this.config.timeouts.slow);
+  }
+}
+
+/**
+ * User Search and Update Page Object
+ */
+export class UserSearchUpdatePage extends BasePage {
+  async performUserSearch(searchQuery?: string): Promise<void> {
+    console.log('🔍 Performing user search...');
+    const query = searchQuery || this.config.userSearchUpdateData.searchQuery;
+    
+    await this.page.locator(locators.userSearchUpdate.searchField).fill(query);
+    await this.waitForTimeout(this.config.timeouts.slow);
+    await this.page.getByRole('button', { name: 'Search' }).click();
+    await this.waitForTimeout(this.config.timeouts.long);
+    console.log('✅ User search completed');
+  }
+
+  async selectTargetUser(userName?: string): Promise<void> {
+    console.log('👤 Selecting target user...');
+    const targetUser = userName || this.config.userSearchUpdateData.targetUser;
+    
+    await this.page.getByRole('cell', { name: targetUser }).click();
+    await this.waitForTimeout(this.config.timeouts.slow);
+    console.log(`✅ Selected user: ${targetUser}`);
+  }
+
+  async openChangeSelectedDialog(): Promise<void> {
+    console.log('⚙️ Opening change selected dialog...');
+    await this.page.getByRole('button', { name: 'Change selected' }).click();
+    await this.waitForTimeout(this.config.timeouts.slow);
+    console.log('✅ Change selected dialog opened');
+  }
+
+  async selectFieldToUpdate(fieldOption?: string): Promise<void> {
+    console.log('🏷️ Selecting field to update...');
+    const field = fieldOption || this.config.userSearchUpdateData.fieldToUpdate;
+    
+    await this.page.locator('select[name="field"]').selectOption(field);
+    await this.waitForTimeout(this.config.timeouts.slow);
+    console.log('✅ Field selected for update');
+  }
+
+  async checkTargetCheckbox(checkboxSelector?: string): Promise<void> {
+    console.log('☑️ Checking target checkbox...');
+    const selector = checkboxSelector || this.config.userSearchUpdateData.checkboxSelector;
+    
+    await this.page.locator(selector).check();
+    await this.waitForTimeout(this.config.timeouts.slow);
+    console.log('✅ Checkbox checked');
+  }
+
+  async saveChanges(): Promise<void> {
+    console.log('💾 Saving changes...');
+    await this.page.getByRole('button', { name: 'Save' }).click();
+    await this.waitForTimeout(this.config.timeouts.long);
+    console.log('✅ Changes saved successfully');
+  }
+
+  async performCompleteUserSearchUpdate(updateData?: any): Promise<void> {
+    console.log('🔄 Performing complete user search and update flow...');
+    
+    const data = updateData || this.config.userSearchUpdateData;
+    
+    // Perform user search
+    await this.performUserSearch(data.searchQuery);
+    
+    // Select target user
+    await this.selectTargetUser(data.targetUser);
+    
+    // Open change dialog
+    await this.openChangeSelectedDialog();
+    
+    // Select field to update
+    await this.selectFieldToUpdate(data.fieldToUpdate);
+    
+    // Check the checkbox
+    await this.checkTargetCheckbox(data.checkboxSelector);
+    
+    // Save changes
+    await this.saveChanges();
+    
+    console.log('✅ User search and update flow completed successfully!');
   }
 }

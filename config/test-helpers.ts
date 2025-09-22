@@ -1,6 +1,6 @@
 import { Page } from '@playwright/test';
 import { TestConfig } from './test-config';
-import { LoginPage, SearchPage, NavigationPage, UserCreationPage, AdvancedSearchPage, OrganizationPage } from './page-objects';
+import { LoginPage, SearchPage, NavigationPage, UserCreationPage, AdvancedSearchPage, OrganizationPage, UserSearchUpdatePage } from './page-objects';
 
 export class TestHelpers {
   public loginPage: LoginPage;
@@ -9,6 +9,7 @@ export class TestHelpers {
   public userCreationPage: UserCreationPage;
   public advancedSearchPage: AdvancedSearchPage;
   public organizationPage: OrganizationPage;
+  public userSearchUpdatePage: UserSearchUpdatePage;
 
   constructor(private page: Page, private config: TestConfig) {
     this.loginPage = new LoginPage(page, config);
@@ -17,6 +18,7 @@ export class TestHelpers {
     this.userCreationPage = new UserCreationPage(page, config);
     this.advancedSearchPage = new AdvancedSearchPage(page, config);
     this.organizationPage = new OrganizationPage(page, config);
+    this.userSearchUpdatePage = new UserSearchUpdatePage(page, config);
   }
 
   /**
@@ -62,5 +64,23 @@ export class TestHelpers {
     await this.loginFlow();
     await this.navigateToSearch();
     await this.performSearch(query);
+  }
+
+  /**
+   * Complete user creation flow - login, create user, save
+   */
+  async userCreationFlow(userData?: any): Promise<void> {
+    await this.loginFlow();
+    await this.userCreationPage.navigateToNewRecord();
+    await this.userCreationPage.fillUserDetails(userData || this.config.userData);
+    await this.userCreationPage.saveRecord();
+  }
+
+  /**
+   * Complete user search and update flow - login, search, update user
+   */
+  async userSearchUpdateFlow(updateData?: any): Promise<void> {
+    await this.loginFlow();
+    await this.userSearchUpdatePage.performCompleteUserSearchUpdate(updateData || this.config.userSearchUpdateData);
   }
 }

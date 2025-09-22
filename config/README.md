@@ -11,7 +11,8 @@ Main configuration file containing:
 - **timeouts**: Default timeout values
 - **slowMode**: Configuration for slow execution mode
 - **testData**: Test-specific data like search queries
-- **userData**: User creation form data (lastName, firstName, phone, cordless, title)
+- **userData**: User creation form data (lastName, firstName, phone, cordless, title, description, department, extension)
+- **userSearchUpdateData**: User search and field update configuration (searchQuery, targetUser, fieldToUpdate, checkboxSelector)
 - **organizationData**: Organization creation data (description, org1, org2, phoneNumber, altDescription, greeting, miscText, grammar)
 - **organizationSearchData**: Organization search and verification data (searchDescription, expectedDescription, expectedPhoneNumber, expectedGreeting, expectedOrg2)
 - **advancedSearchData**: Advanced search parameters (field selections, operators, change field, date value)
@@ -29,6 +30,7 @@ Page Object Model implementation with classes for:
 - **SearchPage**: Search page actions  
 - **NavigationPage**: Navigation and common actions
 - **UserCreationPage**: User creation and management actions
+- **UserSearchUpdatePage**: User search and field update actions
 - **OrganizationPage**: Organization creation, search, and verification actions
 - **AdvancedSearchPage**: Advanced search and bulk update actions
 
@@ -54,6 +56,26 @@ The configuration supports the development environment with ability to override 
 - `ORG_SEARCH_EXPECTED_PHONE`: Expected phone number
 - `ORG_SEARCH_EXPECTED_GREETING`: Expected greeting
 - `ORG_SEARCH_EXPECTED_ORG2`: Expected org2 value
+
+### User Creation Variables
+- `USER_LASTNAME`: User's last name
+- `USER_FIRSTNAME`: User's first name
+- `USER_PHONE`: Phone number
+- `USER_CORDLESS`: Cordless phone number
+- `USER_TITLE`: User's job title
+- `USER_DESCRIPTION`: User description (misc10 field)
+- `USER_DEPARTMENT`: Department (misc11 field)
+- `USER_EXTENSION`: Extension number (misc18 field)
+
+### User Search and Update Variables
+- `USER_SEARCH_QUERY`: Search query for finding users
+- `USER_SEARCH_TARGET`: Target user name/identifier  
+- `USER_SEARCH_FIELD`: Field to update in user record
+- `USER_SEARCH_CHECKBOX`: Checkbox selector for field update
+
+### Initial Login Credentials (for User Update Tests)
+- `INITIAL_TEST_USERNAME`: Initial username for login
+- `INITIAL_TEST_PASSWORD`: Initial password for login
 
 ## Usage
 

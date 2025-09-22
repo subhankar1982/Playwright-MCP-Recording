@@ -1,1 +1,0 @@
-npx playwright test users-search.spec.ts --headed --project=chromium
