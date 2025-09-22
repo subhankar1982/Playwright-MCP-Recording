@@ -64,6 +64,10 @@ export interface TestConfig {
     fieldToUpdate: string;
     checkboxSelector: string;
   };
+  keywordData: {
+    value: string;
+    searchTerm: string;
+  };
 }
 
 export const config: TestConfig = {
@@ -128,9 +132,13 @@ export const config: TestConfig = {
   },
   userSearchUpdateData: {
     searchQuery: '*',
-    targetUser: 'Mitra',
+    targetUser: 'Dey',
     fieldToUpdate: 'exch_inclfree|Calendar synchronization Show appointments marked as "Free"? - checkbox||checkbox|',
     checkboxSelector: '#kryssbox'
+  },
+  keywordData: {
+    value: 'Ciaz',
+    searchTerm: 'Ciaz'
   }
 };
 
@@ -213,6 +221,10 @@ export function getConfig(env: string = 'development'): TestConfig {
       targetUser: process.env.USER_SEARCH_TARGET || baseConfig.userSearchUpdateData.targetUser,
       fieldToUpdate: process.env.USER_SEARCH_FIELD || baseConfig.userSearchUpdateData.fieldToUpdate,
       checkboxSelector: process.env.USER_SEARCH_CHECKBOX || baseConfig.userSearchUpdateData.checkboxSelector,
+    },
+    keywordData: {
+      value: process.env.KEYWORD_VALUE || baseConfig.keywordData.value,
+      searchTerm: process.env.KEYWORD_SEARCH_TERM || baseConfig.keywordData.searchTerm,
     }
   };
 }

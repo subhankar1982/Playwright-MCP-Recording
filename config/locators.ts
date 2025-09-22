@@ -58,6 +58,19 @@ export interface AppLocators {
     checkboxSelector: string;
     saveButton: string;
   };
+  keyword: {
+    keywordsLink: string;
+    newKeywordLink: string;
+    newValueField: string;
+    okButton: string;
+    saveButton: string;
+    searchUpdateLink: string;
+    subjectToSearchField: string;
+    searchButton: string;
+    keywordRow: string;
+    deleteButton: string;
+    noResultsDiv: string;
+  };
 }
 
 export const locators: AppLocators = {
@@ -114,5 +127,18 @@ export const locators: AppLocators = {
     fieldSelector: 'select[name="field"]',
     checkboxSelector: '#kryssbox',
     saveButton: 'button[name="Save"]'
+  },
+  keyword: {
+    keywordsLink: 'a:has-text("Keywords")',
+    newKeywordLink: 'a:has-text("New Keyword")',
+    newValueField: '#newvalue',
+    okButton: 'button[name="OK"]',
+    saveButton: 'button[name="Save"]',
+    searchUpdateLink: 'a:has-text("Search & Update")',
+    subjectToSearchField: '#subjecttosearch',
+    searchButton: '#form1 button[name="Search"]',
+    keywordRow: '[role="row"]',
+    deleteButton: 'img[alt="Delete"]',
+    noResultsDiv: '#NoSearchResultsDiv'
   }
 };

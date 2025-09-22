@@ -16,12 +16,14 @@ Main configuration file containing:
 - **organizationData**: Organization creation data (description, org1, org2, phoneNumber, altDescription, greeting, miscText, grammar)
 - **organizationSearchData**: Organization search and verification data (searchDescription, expectedDescription, expectedPhoneNumber, expectedGreeting, expectedOrg2)
 - **advancedSearchData**: Advanced search parameters (field selections, operators, change field, date value)
+- **keywordData**: Keyword creation and search data (keywordValue, keywordSearchTerm)
 
 ### `locators.ts`
 Contains all page element selectors organized by functionality:
 - **login**: Login page selectors
 - **navigation**: Navigation and common element selectors
 - **search**: Search page selectors
+- **keywords**: Keyword management selectors
 
 ### `page-objects.ts`
 Page Object Model implementation with classes for:
@@ -33,6 +35,7 @@ Page Object Model implementation with classes for:
 - **UserSearchUpdatePage**: User search and field update actions
 - **OrganizationPage**: Organization creation, search, and verification actions
 - **AdvancedSearchPage**: Advanced search and bulk update actions
+- **KeywordPage**: Keyword creation and search actions
 
 ### `test-helpers.ts`
 High-level test helper functions that combine page objects for common workflows
@@ -72,6 +75,10 @@ The configuration supports the development environment with ability to override 
 - `USER_SEARCH_TARGET`: Target user name/identifier  
 - `USER_SEARCH_FIELD`: Field to update in user record
 - `USER_SEARCH_CHECKBOX`: Checkbox selector for field update
+
+### Keyword Creation and Search Variables
+- `KEYWORD_VALUE`: Value for the new keyword
+- `KEYWORD_SEARCH_TERM`: Term to search for keywords
 
 ### Initial Login Credentials (for User Update Tests)
 - `INITIAL_TEST_USERNAME`: Initial username for login

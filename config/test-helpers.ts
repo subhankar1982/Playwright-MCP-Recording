@@ -1,6 +1,6 @@
 import { Page } from '@playwright/test';
 import { TestConfig } from './test-config';
-import { LoginPage, SearchPage, NavigationPage, UserCreationPage, AdvancedSearchPage, OrganizationPage, UserSearchUpdatePage } from './page-objects';
+import { LoginPage, SearchPage, NavigationPage, UserCreationPage, AdvancedSearchPage, OrganizationPage, UserSearchUpdatePage, KeywordPage } from './page-objects';
 
 export class TestHelpers {
   public loginPage: LoginPage;
@@ -10,6 +10,7 @@ export class TestHelpers {
   public advancedSearchPage: AdvancedSearchPage;
   public organizationPage: OrganizationPage;
   public userSearchUpdatePage: UserSearchUpdatePage;
+  public keywordPage: KeywordPage;
 
   constructor(private page: Page, private config: TestConfig) {
     this.loginPage = new LoginPage(page, config);
@@ -19,6 +20,7 @@ export class TestHelpers {
     this.advancedSearchPage = new AdvancedSearchPage(page, config);
     this.organizationPage = new OrganizationPage(page, config);
     this.userSearchUpdatePage = new UserSearchUpdatePage(page, config);
+    this.keywordPage = new KeywordPage(page, config);
   }
 
   /**
@@ -82,5 +84,13 @@ export class TestHelpers {
   async userSearchUpdateFlow(updateData?: any): Promise<void> {
     await this.loginFlow();
     await this.userSearchUpdatePage.performCompleteUserSearchUpdate(updateData || this.config.userSearchUpdateData);
+  }
+
+  /**
+   * Complete keyword create, search, and delete flow - login, create keyword, search and delete, verify
+   */
+  async keywordCreateSearchDeleteFlow(keywordData?: any): Promise<void> {
+    await this.loginFlow();
+    await this.keywordPage.performCompleteKeywordFlow(keywordData || this.config.keywordData);
   }
 }

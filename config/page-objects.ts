@@ -598,3 +598,108 @@ export class UserSearchUpdatePage extends BasePage {
     console.log('✅ User search and update flow completed successfully!');
   }
 }
+
+/**
+ * Keyword Page Object
+ */
+export class KeywordPage extends BasePage {
+  async navigateToKeywords(): Promise<void> {
+    console.log('🔑 Navigating to Keywords...');
+    await this.page.getByRole('link', { name: 'Keywords ' }).click();
+    await this.waitForTimeout(this.config.timeouts.slow);
+    console.log('✅ Navigated to Keywords');
+  }
+
+  async navigateToNewKeyword(): Promise<void> {
+    console.log('➕ Navigating to New Keyword...');
+    await this.page.getByRole('link', { name: 'New Keyword' }).click();
+    await this.waitForTimeout(this.config.timeouts.slow);
+    console.log('✅ Navigated to New Keyword');
+  }
+
+  async fillKeywordValue(value?: string): Promise<void> {
+    console.log('📝 Filling keyword value...');
+    const keywordValue = value || this.config.keywordData.value;
+    await this.page.locator('#newvalue').fill(keywordValue);
+    await this.waitForTimeout(this.config.timeouts.slow);
+    console.log(`✅ Filled keyword value: ${keywordValue}`);
+  }
+
+  async clickOk(): Promise<void> {
+    console.log('✅ Clicking OK button...');
+    await this.page.getByRole('button', { name: 'OK' }).click();
+    await this.waitForTimeout(this.config.timeouts.slow);
+    console.log('✅ OK clicked');
+  }
+
+  async saveKeyword(): Promise<void> {
+    console.log('💾 Saving keyword...');
+    await this.page.getByRole('button', { name: 'Save' }).click();
+    await this.waitForTimeout(this.config.timeouts.long);
+    console.log('✅ Keyword saved');
+  }
+
+  async navigateToSearchUpdate(): Promise<void> {
+    console.log('🔍 Navigating to Search & Update...');
+    await this.page.getByRole('link', { name: 'Search & Update' }).click();
+    await this.waitForTimeout(this.config.timeouts.slow);
+    console.log('✅ Navigated to Search & Update');
+  }
+
+  async fillSearchTerm(term?: string): Promise<void> {
+    console.log('📝 Filling search term...');
+    const searchTerm = term || this.config.keywordData.searchTerm;
+    await this.page.locator('#subjecttosearch').fill(searchTerm);
+    await this.waitForTimeout(this.config.timeouts.slow);
+    console.log(`✅ Filled search term: ${searchTerm}`);
+  }
+
+  async clickSearch(): Promise<void> {
+    console.log('🔎 Performing search...');
+    await this.page.locator('#form1').getByRole('button', { name: 'Search' }).click();
+    await this.waitForTimeout(this.config.timeouts.slow);
+    console.log('✅ Search performed');
+  }
+
+  async deleteKeyword(keywordName?: string): Promise<void> {
+    console.log('🗑️ Deleting keyword...');
+    const name = keywordName || this.config.keywordData.value;
+    await this.page.getByRole('row', { name }).locator('img').nth(1).click();
+    await this.waitForTimeout(this.config.timeouts.step);
+    await this.saveKeyword();
+    console.log(`✅ Deleted keyword: ${name}`);
+  }
+
+  async verifyNoResults(): Promise<void> {
+    console.log('🔍 Verifying no search results...');
+    await expect(this.page.locator('#NoSearchResultsDiv')).toContainText('No keywords were found.');
+    console.log('✅ No results verified');
+  }
+
+  async performCompleteKeywordFlow(keywordData?: { value: string; searchTerm: string }): Promise<void> {
+    console.log('🔄 Performing complete keyword create, search, and delete flow...');
+    
+    const data = keywordData || this.config.keywordData;
+    
+    // Create keyword
+    await this.navigateToKeywords();
+    await this.navigateToNewKeyword();
+    await this.fillKeywordValue(data.value);
+    await this.clickOk();
+    await this.saveKeyword();
+    
+    // Search and delete
+    await this.navigateToSearchUpdate();
+    await this.fillSearchTerm(data.searchTerm);
+    await this.clickSearch();
+    await this.deleteKeyword(data.value);
+    
+    // Verify deletion
+    await this.navigateToSearchUpdate();
+    await this.fillSearchTerm(data.searchTerm);
+    await this.clickSearch();
+    await this.verifyNoResults();
+    
+    console.log('✅ Keyword flow completed successfully!');
+  }
+}
