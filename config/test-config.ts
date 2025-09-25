@@ -71,7 +71,7 @@ export interface TestConfig {
 }
 
 export const config: TestConfig = {
-  baseUrl: 'http://10.211.63.208/cmg.dm/',
+  baseUrl: 'http://172.20.115.41/cmg.dm/',
   credentials: {
     username: 'niceadmin',
     password: 'aastra'
@@ -146,7 +146,7 @@ export const config: TestConfig = {
 export const environments = {
   development: {
     ...config,
-    baseUrl: 'http://10.211.63.208/cmg.dm/'
+    baseUrl: 'http://172.20.115.41/cmg.dm/'
   }
 };
 
