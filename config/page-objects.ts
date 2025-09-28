@@ -318,15 +318,30 @@ export class AdvancedSearchPage extends BasePage {
     await this.waitForTimeout(this.config.timeouts.step);
     
     // Perform search
+    console.log('🔎 Performing advanced search...');
     await this.page.getByRole('button', { name: 'Search' }).click();
-    await this.waitForTimeout(this.config.timeouts.slow);
+    await this.waitForTimeout(this.config.timeouts.long);
+    console.log('✅ Advanced search completed');
   }
 
   async selectAllAndChange(): Promise<void> {
-    await this.page.getByRole('button', { name: 'Select All' }).click();
+    console.log('🔲 Selecting all and opening change dialog...');
+    // Wait for search results to load first
+    await this.page.waitForLoadState('networkidle', { timeout: 10000 });
+    await this.waitForTimeout(this.config.timeouts.slow);
+    
+    // Try to find and click Select All button with multiple approaches
+    try {
+      await this.page.getByRole('button', { name: 'Select All' }).click();
+    } catch (error) {
+      console.log('Trying alternative selector for Select All...');
+      await this.page.locator('button:has-text("Select All")').click();
+    }
+    
     await this.waitForTimeout(this.config.timeouts.step);
     await this.page.getByRole('button', { name: 'Change selected' }).click();
     await this.waitForTimeout(this.config.timeouts.slow);
+    console.log('✅ Selected all and opened change dialog');
   }
 
   async changeFieldAndSave(changeField: string, dateValue: string): Promise<void> {
