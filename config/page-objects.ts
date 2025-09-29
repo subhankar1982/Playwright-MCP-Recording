@@ -278,6 +278,8 @@ export class UserCreationPage extends BasePage {
     await this.page.locator(locators.userCreation.titleField).click();
     await this.page.locator(locators.userCreation.titleField).fill(userData.title);
   }
+
+
 }
 
 /**
