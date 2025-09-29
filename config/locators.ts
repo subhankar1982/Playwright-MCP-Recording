@@ -49,15 +49,7 @@ export interface AppLocators {
     dateLink: string;
     saveButton: string;
   };
-  userSearchUpdate: {
-    searchField: string;
-    searchButton: string;
-    targetUserCell: string;
-    changeSelectedButton: string;
-    fieldSelector: string;
-    checkboxSelector: string;
-    saveButton: string;
-  };
+
   keyword: {
     keywordsLink: string;
     newKeywordLink: string;
@@ -119,26 +111,18 @@ export const locators: AppLocators = {
     dateLink: 'link',
     saveButton: 'button[name="Save"]'
   },
-  userSearchUpdate: {
-    searchField: '[id="1lname"]',
-    searchButton: 'button[name="Search"]',
-    targetUserCell: '[role="cell"]',
-    changeSelectedButton: 'button[name="Change selected"]',
-    fieldSelector: 'select[name="field"]',
-    checkboxSelector: '#kryssbox',
-    saveButton: 'button[name="Save"]'
-  },
+
   keyword: {
-    keywordsLink: 'a:has-text("Keywords")',
-    newKeywordLink: 'a:has-text("New Keyword")',
-    newValueField: '#newvalue',
+    keywordsLink: 'link[name="Keywords"]',
+    newKeywordLink: 'link[name="New keyword"]',
+    newValueField: 'input[name="new_value"]',
     okButton: 'button[name="OK"]',
     saveButton: 'button[name="Save"]',
-    searchUpdateLink: 'a:has-text("Search & Update")',
-    subjectToSearchField: '#subjecttosearch',
-    searchButton: '#form1 button[name="Search"]',
-    keywordRow: '[role="row"]',
-    deleteButton: 'img[alt="Delete"]',
-    noResultsDiv: '#NoSearchResultsDiv'
+    searchUpdateLink: 'link[name="Search Update"]',
+    subjectToSearchField: 'input[name="subject_to_search"]',
+    searchButton: 'button[name="Search"]',
+    keywordRow: 'tr.keyword_row',
+    deleteButton: 'button[name="Delete"]',
+    noResultsDiv: 'div.no_results'
   }
 };
