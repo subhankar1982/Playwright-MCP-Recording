@@ -7,9 +7,6 @@ const config = getConfig(process.env.TEST_ENV);
 test('CMG Configuration Manager login and logout test', async ({ page }) => {
   const helpers = new CMGCMTestHelpers(page, config);
   
-  // Perform complete login flow
-  await helpers.loginFlow();
-  
-  // Logout
-  await helpers.logout();
+  // Perform complete login, verify, and logout flow with parameterized data
+  await helpers.completeLoginLogoutFlow();
 });
