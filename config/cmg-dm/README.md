@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Test Configuration
 
 This directory contains configuration files for the Playwright test suite.
@@ -13,6 +12,7 @@ Main configuration file containing:
 - **slowMode**: Configuration for slow execution mode
 - **testData**: Test-specific data like search queries
 - **userData**: User creation form data (lastName, firstName, phone, cordless, title, description, department, extension)
+- **userSearchUpdateData**: User search and field update configuration (searchQuery, targetUser, fieldToUpdate, checkboxSelector)
 - **organizationData**: Organization creation data (description, org1, org2, phoneNumber, altDescription, greeting, miscText, grammar)
 - **organizationSearchData**: Organization search and verification data (searchDescription, expectedDescription, expectedPhoneNumber, expectedGreeting, expectedOrg2)
 - **advancedSearchData**: Advanced search parameters (field selections, operators, change field, date value)
@@ -32,6 +32,7 @@ Page Object Model implementation with classes for:
 - **SearchPage**: Search page actions  
 - **NavigationPage**: Navigation and common actions
 - **UserCreationPage**: User creation and management actions
+- **UserSearchUpdatePage**: User search and field update actions
 - **OrganizationPage**: Organization creation, search, and verification actions
 - **AdvancedSearchPage**: Advanced search and bulk update actions
 - **KeywordPage**: Keyword creation and search actions
@@ -69,9 +70,19 @@ The configuration supports the development environment with ability to override 
 - `USER_DEPARTMENT`: Department (misc11 field)
 - `USER_EXTENSION`: Extension number (misc18 field)
 
+### User Search and Update Variables
+- `USER_SEARCH_QUERY`: Search query for finding users
+- `USER_SEARCH_TARGET`: Target user name/identifier  
+- `USER_SEARCH_FIELD`: Field to update in user record
+- `USER_SEARCH_CHECKBOX`: Checkbox selector for field update
+
 ### Keyword Creation and Search Variables
 - `KEYWORD_VALUE`: Value for the new keyword
 - `KEYWORD_SEARCH_TERM`: Term to search for keywords
+
+### Initial Login Credentials (for User Update Tests)
+- `INITIAL_TEST_USERNAME`: Initial username for login
+- `INITIAL_TEST_PASSWORD`: Initial password for login
 
 ## Usage
 
@@ -123,5 +134,3 @@ test('example test', async ({ page }) => {
 - Easy to add new pages and their objects
 - New test data can be added to configuration
 - Environment-specific overrides supported
-=======
->>>>>>> testing

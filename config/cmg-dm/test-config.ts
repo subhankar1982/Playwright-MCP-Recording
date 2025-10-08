@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 export interface TestConfig {
   baseUrl: string;
   credentials: {
@@ -59,7 +58,12 @@ export interface TestConfig {
     expectedGreeting: string;
     expectedOrg2: string;
   };
-
+  userSearchUpdateData: {
+    searchQuery: string;
+    targetUser: string;
+    fieldToUpdate: string;
+    checkboxSelector: string;
+  };
   keywordData: {
     value: string;
     searchTerm: string;
@@ -126,7 +130,12 @@ export const config: TestConfig = {
     expectedGreeting: 'hello welcome to AI testing in the MX-ONE RnD',
     expectedOrg2: '64'
   },
-
+  userSearchUpdateData: {
+    searchQuery: '*',
+    targetUser: 'Dey',
+    fieldToUpdate: 'exch_inclfree|Calendar synchronization Show appointments marked as "Free"? - checkbox||checkbox|',
+    checkboxSelector: '#kryssbox'
+  },
   keywordData: {
     value: 'Ciaz',
     searchTerm: 'Ciaz'
@@ -207,12 +216,15 @@ export function getConfig(env: string = 'development'): TestConfig {
       expectedGreeting: process.env.ORG_SEARCH_EXPECTED_GREETING || baseConfig.organizationSearchData.expectedGreeting,
       expectedOrg2: process.env.ORG_SEARCH_EXPECTED_ORG2 || baseConfig.organizationSearchData.expectedOrg2,
     },
-
+    userSearchUpdateData: {
+      searchQuery: process.env.USER_SEARCH_QUERY || baseConfig.userSearchUpdateData.searchQuery,
+      targetUser: process.env.USER_SEARCH_TARGET || baseConfig.userSearchUpdateData.targetUser,
+      fieldToUpdate: process.env.USER_SEARCH_FIELD || baseConfig.userSearchUpdateData.fieldToUpdate,
+      checkboxSelector: process.env.USER_SEARCH_CHECKBOX || baseConfig.userSearchUpdateData.checkboxSelector,
+    },
     keywordData: {
       value: process.env.KEYWORD_VALUE || baseConfig.keywordData.value,
       searchTerm: process.env.KEYWORD_SEARCH_TERM || baseConfig.keywordData.searchTerm,
     }
   };
 }
-=======
->>>>>>> testing

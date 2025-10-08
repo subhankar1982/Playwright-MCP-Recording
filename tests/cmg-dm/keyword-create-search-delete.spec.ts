@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { getConfig } from '../config/test-config';
-import { TestHelpers } from '../config/test-helpers';
+import { getConfig } from '../../config/cmg-dm/test-config';
+import { TestHelpers } from '../../config/cmg-dm/test-helpers';
 
 const config = getConfig(process.env.TEST_ENV);
 

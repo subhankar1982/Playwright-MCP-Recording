@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Page } from '@playwright/test';
 import { expect } from '@playwright/test';
 import { locators } from './locators';
@@ -201,7 +200,7 @@ export class UserCreationPage extends BasePage {
   }
 
   async searchUser(searchTerm: string): Promise<void> {
-    await this.page.goto('http://172.20.115.41/CMG.DM/subsform/Index?recordid=1025&currtab=subsform');
+    await this.page.goto('http://10.211.63.208/CMG.DM/subsform/Index?recordid=1025&currtab=subsform');
     await this.page.locator(locators.userCreation.quickSearchField).click();
     await this.page.locator(locators.userCreation.quickSearchField).fill(searchTerm);
     await this.page.locator(locators.userCreation.quickSearchField).press('Enter');
@@ -321,143 +320,24 @@ export class AdvancedSearchPage extends BasePage {
     await this.waitForTimeout(this.config.timeouts.step);
     
     // Perform search
-    console.log('🔎 Performing advanced search...');
     await this.page.getByRole('button', { name: 'Search' }).click();
-    await this.waitForTimeout(this.config.timeouts.long);
-    console.log('✅ Advanced search completed');
+    await this.waitForTimeout(this.config.timeouts.slow);
   }
 
   async selectAllAndChange(): Promise<void> {
-<<<<<<< HEAD
-    console.log('🔄 Attempting to select all and change...');
-    
-    // Debug: Check what buttons are available
-    const allButtons = this.page.locator('button');
-    const buttonCount = await allButtons.count();
-    console.log(`Found ${buttonCount} buttons on the page`);
-    
-    // Try to find the "Select All" button with different possible names
-    const selectAllPossibleNames = ['Select All', 'Select all', 'SELECT ALL', 'All'];
-    let selectAllFound = false;
-    
-    for (const buttonName of selectAllPossibleNames) {
-      try {
-        const selectAllButton = this.page.getByRole('button', { name: buttonName });
-        if (await selectAllButton.isVisible({ timeout: 2000 })) {
-          console.log(`✅ Found Select All button: ${buttonName}`);
-          await selectAllButton.click();
-          await this.waitForTimeout(this.config.timeouts.step);
-          selectAllFound = true;
-          break;
-        }
-      } catch (e) {
-        console.log(`❌ Select All button "${buttonName}" not found, trying next...`);
-        continue;
-      }
-    }
-    
-    if (!selectAllFound) {
-      console.log('❌ No Select All button found, listing available buttons...');
-      for (let i = 0; i < Math.min(buttonCount, 10); i++) {
-        const buttonText = await allButtons.nth(i).textContent();
-        console.log(`Button ${i}: "${buttonText}"`);
-      }
-      // Try using locator-based approach
-      const selectAllButton = this.page.locator('button', { hasText: /select.*all/i });
-      if (await selectAllButton.isVisible({ timeout: 2000 })) {
-        await selectAllButton.click();
-        await this.waitForTimeout(this.config.timeouts.step);
-        selectAllFound = true;
-      }
-    }
-    
-    if (!selectAllFound) {
-      console.log('❌ Skipping Select All - button not found');
-      return;
-    }
-    
-    // Now try to find "Change selected" button
-    const changeSelectedNames = ['Change selected', 'Change Selected', 'CHANGE SELECTED', 'Update selected'];
-    let changeSelectedFound = false;
-    
-    for (const buttonName of changeSelectedNames) {
-      try {
-        const changeButton = this.page.getByRole('button', { name: buttonName });
-        if (await changeButton.isVisible({ timeout: 2000 })) {
-          console.log(`✅ Found Change Selected button: ${buttonName}`);
-          await changeButton.click();
-          await this.waitForTimeout(this.config.timeouts.slow);
-          changeSelectedFound = true;
-          break;
-        }
-      } catch (e) {
-        console.log(`❌ Change Selected button "${buttonName}" not found, trying next...`);
-        continue;
-      }
-    }
-    
-    if (!changeSelectedFound) {
-      console.log('❌ No Change Selected button found');
-    }
-    
-    console.log('✅ Select All and Change completed');
-=======
-    console.log('🔲 Selecting all and opening change dialog...');
-    // Wait for search results to load first
-    await this.page.waitForLoadState('networkidle', { timeout: 10000 });
-    await this.waitForTimeout(this.config.timeouts.slow);
-    
-    // Try to find and click Select All button with multiple approaches
-    try {
-      await this.page.getByRole('button', { name: 'Select All' }).click();
-    } catch (error) {
-      console.log('Trying alternative selector for Select All...');
-      await this.page.locator('button:has-text("Select All")').click();
-    }
-    
+    await this.page.getByRole('button', { name: 'Select All' }).click();
     await this.waitForTimeout(this.config.timeouts.step);
     await this.page.getByRole('button', { name: 'Change selected' }).click();
     await this.waitForTimeout(this.config.timeouts.slow);
-    console.log('✅ Selected all and opened change dialog');
->>>>>>> d0ad0c5ca7ae750c2468116fbc002d433b9d8510
   }
 
   async changeFieldAndSave(changeField: string, dateValue: string): Promise<void> {
-    console.log('🔧 Attempting to change field and save...');
-    
-    // Check if there are any modal dialogs that need to be closed first
-    try {
-      const closeButton = this.page.getByRole('button', { name: 'Close' });
-      if (await closeButton.isVisible({ timeout: 2000 })) {
-        console.log('Closing modal dialog...');
-        await closeButton.click();
-        await this.waitForTimeout(this.config.timeouts.step);
-      }
-    } catch (e) {
-      // No modal to close, continue
-    }
-    
-    // Try to find the field selector
-    try {
-      const fieldSelect = this.page.locator('select[name="field"]');
-      if (await fieldSelect.isVisible({ timeout: 5000 })) {
-        await fieldSelect.selectOption(changeField);
-        await this.waitForTimeout(this.config.timeouts.step);
-        
-        await this.page.getByRole('link', { name: dateValue }).click();
-        await this.waitForTimeout(this.config.timeouts.step);
-        
-        await this.page.getByRole('button', { name: 'Save' }).click();
-        await this.waitForTimeout(this.config.timeouts.slow);
-        
-        console.log('✅ Field changed and saved successfully');
-      } else {
-        console.log('❌ Field selector not found, skipping field change');
-      }
-    } catch (error) {
-      console.log(`❌ Error during field change: ${error.message}`);
-      console.log('Skipping field change and save');
-    }
+    await this.page.locator('select[name="field"]').selectOption(changeField);
+    await this.waitForTimeout(this.config.timeouts.step);
+    await this.page.getByRole('link', { name: dateValue }).click();
+    await this.waitForTimeout(this.config.timeouts.step);
+    await this.page.getByRole('button', { name: 'Save' }).click();
+    await this.waitForTimeout(this.config.timeouts.slow);
   }
 
   async performCompleteAdvancedSearchFlow(searchData: {
@@ -524,39 +404,11 @@ export class OrganizationPage extends BasePage {
     await this.page.locator('input[name="neworg2Input"]').press('Tab');
     await this.waitForTimeout(this.config.timeouts.step);
 
-    // Fill phone number - try multiple possible selectors
-    console.log('📞 Filling phone number...');
-    const phoneSelectors = [
-      'input[name="newphonenumberInput"]',
-      'input[name="phoneInput"]', 
-      'input[name="phone"]',
-      '#newphonenumberInput',
-      '#phoneInput',
-      'input[type="text"]'
-    ];
-    
-    let phoneFieldFound = false;
-    for (const selector of phoneSelectors) {
-      try {
-        const phoneField = this.page.locator(selector);
-        if (await phoneField.isVisible({ timeout: 2000 })) {
-          await phoneField.fill(organizationData.phoneNumber);
-          await this.waitForTimeout(this.config.timeouts.step);
-          await phoneField.press('Tab');
-          await this.waitForTimeout(this.config.timeouts.step);
-          console.log(`✅ Phone number filled using selector: ${selector}`);
-          phoneFieldFound = true;
-          break;
-        }
-      } catch (e) {
-        console.log(`❌ Phone selector ${selector} not found, trying next...`);
-        continue;
-      }
-    }
-    
-    if (!phoneFieldFound) {
-      console.log('❌ No phone field found, skipping phone number entry');
-    }
+    // Fill phone number
+    await this.page.locator('input[name="newphonenumberInput"]').fill(organizationData.phoneNumber);
+    await this.waitForTimeout(this.config.timeouts.step);
+    await this.page.locator('input[name="newphonenumberInput"]').press('Tab');
+    await this.waitForTimeout(this.config.timeouts.step);
 
     // Fill alt description
     await this.page.locator('#newaltdescriptionInput').fill(organizationData.altDescription);
@@ -615,14 +467,8 @@ export class OrganizationPage extends BasePage {
 
   async searchAndSelectOrganization(searchDescription: string): Promise<void> {
     console.log(`🔍 Searching for organization: ${searchDescription}`);
-    
-    // Use a more specific selector to avoid strict mode violations
-    // Target the td element with nowrap attribute which is likely the main organization cell
-    const orgCell = this.page.locator('td[nowrap]').filter({ hasText: searchDescription });
-    await orgCell.click();
-    
+    await this.page.getByRole('cell', { name: searchDescription, exact: true }).click();
     await this.waitForTimeout(this.config.timeouts.slow);
-    console.log(`✅ Selected organization: ${searchDescription}`);
   }
 
   async verifyOrganizationDetails(searchData: {
@@ -669,6 +515,89 @@ export class OrganizationPage extends BasePage {
     await this.page.getByRole('button', { name: 'Save' }).click();
     await this.page.waitForLoadState('networkidle', { timeout: 10000 });
     await this.waitForTimeout(this.config.timeouts.slow);
+  }
+}
+
+/**
+ * User Search and Update Page Object
+ */
+export class UserSearchUpdatePage extends BasePage {
+  async performUserSearch(searchQuery?: string): Promise<void> {
+    console.log('🔍 Performing user search...');
+    const query = searchQuery || this.config.userSearchUpdateData.searchQuery;
+    
+    await this.page.locator(locators.userSearchUpdate.searchField).fill(query);
+    await this.waitForTimeout(this.config.timeouts.slow);
+    await this.page.getByRole('button', { name: 'Search' }).click();
+    await this.waitForTimeout(this.config.timeouts.long);
+    console.log('✅ User search completed');
+  }
+
+  async selectTargetUser(userName?: string): Promise<void> {
+    console.log('👤 Selecting target user...');
+    const targetUser = userName || this.config.userSearchUpdateData.targetUser;
+    
+    await this.page.getByRole('cell', { name: targetUser }).click();
+    await this.waitForTimeout(this.config.timeouts.slow);
+    console.log(`✅ Selected user: ${targetUser}`);
+  }
+
+  async openChangeSelectedDialog(): Promise<void> {
+    console.log('⚙️ Opening change selected dialog...');
+    await this.page.getByRole('button', { name: 'Change selected' }).click();
+    await this.waitForTimeout(this.config.timeouts.slow);
+    console.log('✅ Change selected dialog opened');
+  }
+
+  async selectFieldToUpdate(fieldOption?: string): Promise<void> {
+    console.log('🏷️ Selecting field to update...');
+    const field = fieldOption || this.config.userSearchUpdateData.fieldToUpdate;
+    
+    await this.page.locator('select[name="field"]').selectOption(field);
+    await this.waitForTimeout(this.config.timeouts.slow);
+    console.log('✅ Field selected for update');
+  }
+
+  async checkTargetCheckbox(checkboxSelector?: string): Promise<void> {
+    console.log('☑️ Checking target checkbox...');
+    const selector = checkboxSelector || this.config.userSearchUpdateData.checkboxSelector;
+    
+    await this.page.locator(selector).check();
+    await this.waitForTimeout(this.config.timeouts.slow);
+    console.log('✅ Checkbox checked');
+  }
+
+  async saveChanges(): Promise<void> {
+    console.log('💾 Saving changes...');
+    await this.page.getByRole('button', { name: 'Save' }).click();
+    await this.waitForTimeout(this.config.timeouts.long);
+    console.log('✅ Changes saved successfully');
+  }
+
+  async performCompleteUserSearchUpdate(updateData?: any): Promise<void> {
+    console.log('🔄 Performing complete user search and update flow...');
+    
+    const data = updateData || this.config.userSearchUpdateData;
+    
+    // Perform user search
+    await this.performUserSearch(data.searchQuery);
+    
+    // Select target user
+    await this.selectTargetUser(data.targetUser);
+    
+    // Open change dialog
+    await this.openChangeSelectedDialog();
+    
+    // Select field to update
+    await this.selectFieldToUpdate(data.fieldToUpdate);
+    
+    // Check the checkbox
+    await this.checkTargetCheckbox(data.checkboxSelector);
+    
+    // Save changes
+    await this.saveChanges();
+    
+    console.log('✅ User search and update flow completed successfully!');
   }
 }
 
@@ -776,5 +705,3 @@ export class KeywordPage extends BasePage {
     console.log('✅ Keyword flow completed successfully!');
   }
 }
-=======
->>>>>>> testing
