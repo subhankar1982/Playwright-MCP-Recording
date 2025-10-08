@@ -12,6 +12,12 @@ export interface CMGCMLocators {
   navigation: {
     logoutLink: string;
   };
+  systemParameters: {
+    option44: string;
+    value224: string;
+    option213: string;
+    saveButton: string;
+  };
 }
 
 export const locators: CMGCMLocators = {
@@ -22,5 +28,11 @@ export const locators: CMGCMLocators = {
   },
   navigation: {
     logoutLink: 'link[name="Log Out"]'
+  },
+  systemParameters: {
+    option44: '[id="44"]',
+    value224: '[id="224"]',
+    option213: '[id="213"]',
+    saveButton: 'button:has-text("Save")'
   }
 };
