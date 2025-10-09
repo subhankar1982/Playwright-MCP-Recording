@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Page } from '@playwright/test';
 import { expect } from '@playwright/test';
 import { locators } from './locators';
@@ -328,7 +327,6 @@ export class AdvancedSearchPage extends BasePage {
   }
 
   async selectAllAndChange(): Promise<void> {
-<<<<<<< HEAD
     console.log('🔄 Attempting to select all and change...');
     
     // Debug: Check what buttons are available
@@ -401,25 +399,6 @@ export class AdvancedSearchPage extends BasePage {
     }
     
     console.log('✅ Select All and Change completed');
-=======
-    console.log('🔲 Selecting all and opening change dialog...');
-    // Wait for search results to load first
-    await this.page.waitForLoadState('networkidle', { timeout: 10000 });
-    await this.waitForTimeout(this.config.timeouts.slow);
-    
-    // Try to find and click Select All button with multiple approaches
-    try {
-      await this.page.getByRole('button', { name: 'Select All' }).click();
-    } catch (error) {
-      console.log('Trying alternative selector for Select All...');
-      await this.page.locator('button:has-text("Select All")').click();
-    }
-    
-    await this.waitForTimeout(this.config.timeouts.step);
-    await this.page.getByRole('button', { name: 'Change selected' }).click();
-    await this.waitForTimeout(this.config.timeouts.slow);
-    console.log('✅ Selected all and opened change dialog');
->>>>>>> d0ad0c5ca7ae750c2468116fbc002d433b9d8510
   }
 
   async changeFieldAndSave(changeField: string, dateValue: string): Promise<void> {
@@ -777,4 +756,5 @@ export class KeywordPage extends BasePage {
   }
 }
 =======
->>>>>>> testing
+testing
+master

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Test Configuration
 
 This directory contains configuration files for the Playwright test suite.
@@ -123,5 +122,4 @@ test('example test', async ({ page }) => {
 - Easy to add new pages and their objects
 - New test data can be added to configuration
 - Environment-specific overrides supported
-=======
->>>>>>> testing
+master

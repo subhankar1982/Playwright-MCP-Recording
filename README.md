@@ -1,7 +1,5 @@
-<<<<<<< HEAD
 # Playwright-MCP-Recording
 Playwright-MCP-Recording. ok
-=======
 # Playwright Test Suite
 
 This project contains automated test suites for multiple CMG applications using Playwright.
@@ -41,7 +39,7 @@ config/
 ### CMG Directory Manager (CMG.DM)
 - **URL**: `http://172.20.115.41/cmg.dm/`
 - **Tests**: User management, organization management, advanced search, keywords
-- **Configuration**: Fully parameterized with environment variable support
+- **Configuration**: Fully parameterized with environment variable support.
 
 ### CMG Configuration Manager (CMG.CM)
 - **URL**: `http://172.20.115.41/cmg.cm/`
@@ -110,4 +108,4 @@ Each test suite follows the same architectural pattern:
 - **Page Object Layer**: Page-specific actions and methods
 - **Helper Layer**: High-level workflows combining multiple page objects
 - **Test Layer**: Actual test scenarios
->>>>>>> testing
+master

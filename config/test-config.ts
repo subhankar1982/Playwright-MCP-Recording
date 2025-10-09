@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 export interface TestConfig {
   baseUrl: string;
   credentials: {
@@ -214,5 +213,4 @@ export function getConfig(env: string = 'development'): TestConfig {
     }
   };
 }
-=======
->>>>>>> testing
+master

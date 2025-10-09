@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /**
  * Page Object Locators
  * Contains all the selectors used throughout the application
@@ -127,5 +126,4 @@ export const locators: AppLocators = {
     noResultsDiv: 'div.no_results'
   }
 };
-=======
->>>>>>> testing
+master

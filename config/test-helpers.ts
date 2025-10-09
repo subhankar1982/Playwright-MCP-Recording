@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Page } from '@playwright/test';
 import { TestConfig } from './test-config';
 import { LoginPage, SearchPage, NavigationPage, UserCreationPage, AdvancedSearchPage, OrganizationPage, KeywordPage } from './page-objects';
@@ -90,5 +89,4 @@ export class TestHelpers {
 
 
 }
-=======
->>>>>>> testing
+master
