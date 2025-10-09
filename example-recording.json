@@ -1,0 +1,32 @@
+[
+  {
+    "type": "navigate",
+    "data": {
+      "url": "https://example.com"
+    },
+    "timestamp": 1234567890000
+  },
+  {
+    "type": "click",
+    "data": {
+      "selector": "#submit-button"
+    },
+    "timestamp": 1234567891000
+  },
+  {
+    "type": "fill",
+    "data": {
+      "selector": "input[name='username']",
+      "text": "user@example.com"
+    },
+    "timestamp": 1234567892000
+  },
+  {
+    "type": "screenshot",
+    "data": {
+      "filename": "result",
+      "fullPage": false
+    },
+    "timestamp": 1234567893000
+  }
+]

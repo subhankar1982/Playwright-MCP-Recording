@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "playwright-recording": {
+      "command": "node",
+      "args": ["dist/index.js"]
+    }
+  }
+}
