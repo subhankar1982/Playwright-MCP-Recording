@@ -85,10 +85,10 @@ export const config: TestConfig = {
   },
   userData: {
     lastName: 'Mitra',
-    firstName: 'Shrila',
+    firstName: 'Jolly',
     phone: '553484385438342',
     cordless: '8765535333',
-    title: 'CFO',
+    title: 'CTO',
     description: 'hello Mitel',
     department: 'AI',
     extension: '876'
@@ -112,7 +112,7 @@ export const config: TestConfig = {
   },
   userSearchUpdateData: {
     searchQuery: '*',
-    targetUser: 'Dey',
+    targetUser: 'Mitra',
     fieldToUpdate: 'exch_inclfree|Calendar synchronization Show appointments marked as "Free"? - checkbox||checkbox|',
     checkboxSelector: '#kryssbox'
   },
