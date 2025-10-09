@@ -37,7 +37,7 @@ config/
 ### CMG Directory Manager (CMG.DM)
 - **URL**: `http://172.20.115.41/cmg.dm/`
 - **Tests**: User management, organization management, advanced search, keywords
-- **Configuration**: Fully parameterized with environment variable support
+- **Configuration**: Fully parameterized with environment variable support.
 
 ### CMG Configuration Manager (CMG.CM)
 - **URL**: `http://172.20.115.41/cmg.cm/`
