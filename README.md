@@ -9,7 +9,6 @@ This project contains automated test suites for multiple CMG applications using 
 ```
 tests/
 ├── cmg-dm/              # CMG Directory Manager tests
-│   ├── advanced-search.spec.ts
 │   ├── delete-organization.spec.ts
 │   ├── keyword-create-search-delete.spec.ts
 │   ├── new-organization-ceation.spec.ts
@@ -64,7 +63,7 @@ npx playwright test tests/cmg-cm/
 
 ### Run specific test file
 ```bash
-npx playwright test tests/cmg-dm/advanced-search.spec.ts
+npx playwright test tests/cmg-dm/delete-organization.spec.ts
 npx playwright test tests/cmg-cm/test-1.spec.ts
 ```
 

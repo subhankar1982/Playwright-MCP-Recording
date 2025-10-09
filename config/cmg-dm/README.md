@@ -15,7 +15,6 @@ Main configuration file containing:
 - **userSearchUpdateData**: User search and field update configuration (searchQuery, targetUser, fieldToUpdate, checkboxSelector)
 - **organizationData**: Organization creation data (description, org1, org2, phoneNumber, altDescription, greeting, miscText, grammar)
 - **organizationSearchData**: Organization search and verification data (searchDescription, expectedDescription, expectedPhoneNumber, expectedGreeting, expectedOrg2)
-- **advancedSearchData**: Advanced search parameters (field selections, operators, change field, date value)
 - **keywordData**: Keyword creation and search data (keywordValue, keywordSearchTerm)
 
 ### `locators.ts`
@@ -34,7 +33,6 @@ Page Object Model implementation with classes for:
 - **UserCreationPage**: User creation and management actions
 - **UserSearchUpdatePage**: User search and field update actions
 - **OrganizationPage**: Organization creation, search, and verification actions
-- **AdvancedSearchPage**: Advanced search and bulk update actions
 - **KeywordPage**: Keyword creation and search actions
 
 ### `test-helpers.ts`
