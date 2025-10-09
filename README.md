@@ -1,3 +1,5 @@
+# Playwright-MCP-Recording
+Playwright-MCP-Recording. ok
 # Playwright Test Suite
 
 This project contains automated test suites for multiple CMG applications using Playwright.
@@ -106,3 +108,4 @@ Each test suite follows the same architectural pattern:
 - **Page Object Layer**: Page-specific actions and methods
 - **Helper Layer**: High-level workflows combining multiple page objects
 - **Test Layer**: Actual test scenarios
+master
