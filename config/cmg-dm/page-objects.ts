@@ -467,7 +467,41 @@ export class OrganizationPage extends BasePage {
 
   async searchAndSelectOrganization(searchDescription: string): Promise<void> {
     console.log(`🔍 Searching for organization: ${searchDescription}`);
-    await this.page.getByRole('cell', { name: searchDescription, exact: true }).click();
+    
+    try {
+      // First try: Look for the organization cell in a table row context
+      const organizationRow = this.page.locator('tr').filter({ has: this.page.getByText(searchDescription, { exact: true }) });
+      const rowCount = await organizationRow.count();
+      
+      if (rowCount > 0) {
+        // Click on the cell within the first matching row
+        await organizationRow.first().getByRole('cell', { name: searchDescription, exact: true }).first().click();
+        console.log(`✅ Successfully clicked organization: ${searchDescription}`);
+      } else {
+        // Fallback: Find all cells with the search description and click the first clickable one
+        const cells = this.page.getByRole('cell', { name: searchDescription, exact: true });
+        const cellCount = await cells.count();
+        
+        if (cellCount === 0) {
+          throw new Error(`No organization found with description: ${searchDescription}`);
+        }
+        
+        if (cellCount === 1) {
+          await cells.click();
+        } else {
+          // If multiple cells found, try to click the first one that's in a clickable row
+          console.log(`⚠️ Found ${cellCount} cells with text '${searchDescription}', attempting to click the first clickable one`);
+          
+          // Try clicking the first cell, as it's likely the main data cell
+          await cells.first().click();
+        }
+        console.log(`✅ Successfully clicked organization using fallback method: ${searchDescription}`);
+      }
+    } catch (error) {
+      console.error(`❌ Failed to click organization: ${searchDescription}`, error);
+      throw error;
+    }
+    
     await this.waitForTimeout(this.config.timeouts.slow);
   }
 
