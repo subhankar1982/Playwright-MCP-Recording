@@ -1,13 +1,12 @@
 import { Page } from '@playwright/test';
 import { TestConfig } from './test-config';
-import { LoginPage, SearchPage, NavigationPage, UserCreationPage, AdvancedSearchPage, OrganizationPage, UserSearchUpdatePage, KeywordPage } from './page-objects';
+import { LoginPage, SearchPage, NavigationPage, UserCreationPage, OrganizationPage, UserSearchUpdatePage, KeywordPage } from './page-objects';
 
 export class TestHelpers {
   public loginPage: LoginPage;
   public searchPage: SearchPage;
   public navigationPage: NavigationPage;
   public userCreationPage: UserCreationPage;
-  public advancedSearchPage: AdvancedSearchPage;
   public organizationPage: OrganizationPage;
   public userSearchUpdatePage: UserSearchUpdatePage;
   public keywordPage: KeywordPage;
@@ -17,7 +16,6 @@ export class TestHelpers {
     this.searchPage = new SearchPage(page, config);
     this.navigationPage = new NavigationPage(page, config);
     this.userCreationPage = new UserCreationPage(page, config);
-    this.advancedSearchPage = new AdvancedSearchPage(page, config);
     this.organizationPage = new OrganizationPage(page, config);
     this.userSearchUpdatePage = new UserSearchUpdatePage(page, config);
     this.keywordPage = new KeywordPage(page, config);

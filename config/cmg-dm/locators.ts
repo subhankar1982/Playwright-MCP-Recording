@@ -32,23 +32,6 @@ export interface AppLocators {
     saveButton: string;
     quickSearchField: string;
   };
-  advancedSearch: {
-    advancedSearchLink: string;
-    radioButton1: string;
-    field1: string;
-    field2: string;
-    operator3: string;
-    field3: string;
-    radio3: string;
-    operator4: string;
-    field4: string;
-    searchButton: string;
-    selectAllButton: string;
-    changeSelectedButton: string;
-    changeFieldSelect: string;
-    dateLink: string;
-    saveButton: string;
-  };
   userSearchUpdate: {
     searchField: string;
     searchButton: string;
@@ -101,23 +84,6 @@ export const locators: AppLocators = {
     extensionField: 'input[name="3misc18"]',
     saveButton: 'button[name="Save"]',
     quickSearchField: '#txtQuickSearch'
-  },
-  advancedSearch: {
-    advancedSearchLink: 'link[name="Advanced Search Alt+"]',
-    radioButton1: 'input[type="radio"]:nth-child(2)',
-    field1: '#field1',
-    field2: '#field2',
-    operator3: '#operator3',
-    field3: '#field3',
-    radio3: 'input[name="radio3"]:nth-child(2)',
-    operator4: '#operator4',
-    field4: '#field4',
-    searchButton: 'button[name="Search"]',
-    selectAllButton: 'button[name="Select All"]',
-    changeSelectedButton: 'button[name="Change selected"]',
-    changeFieldSelect: 'select[name="field"]',
-    dateLink: 'link',
-    saveButton: 'button[name="Save"]'
   },
   userSearchUpdate: {
     searchField: '[id="1lname"]',
