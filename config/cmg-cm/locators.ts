@@ -11,6 +11,17 @@ export interface CMGCMLocators {
   };
   navigation: {
     logoutLink: string;
+    contactProfilesLink: string;
+  };
+  contactProfiles: {
+    newButton: string;
+    okButton: string;
+    saveButton: string;
+    modalData1: string;
+    modalData3: string;
+    modalData6: string;
+    pbxTable: string;
+    pbxCell: string;
   };
   systemParameters: {
     option44: string;
@@ -27,7 +38,18 @@ export const locators: CMGCMLocators = {
     loginButton: 'button[type="submit"]'
   },
   navigation: {
-    logoutLink: 'a[href*="logout"]'
+    logoutLink: 'a[href*="logout"]',
+    contactProfilesLink: 'a[href*="Profiles"]'
+  },
+  contactProfiles: {
+    newButton: 'button:has-text("New")',
+    okButton: 'button:has-text("OK")',
+    saveButton: 'button:has-text("Save")',
+    modalData1: '#modalData1',
+    modalData3: '#modalData3',
+    modalData6: '#modalData6',
+    pbxTable: '#pbxtable',
+    pbxCell: 'icp1 - Alt.ext.1misc1 -'
   },
   systemParameters: {
     option44: 'select[name="option44"]',
