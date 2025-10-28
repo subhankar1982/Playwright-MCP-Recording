@@ -14,8 +14,9 @@ tests/
 │   ├── newly-created-org-search.spec.ts
 │   ├── users-search.spec.ts
 │   └── users-update.spec.ts
-└── cmg-cm/              # CMG Configuration Manager tests
-    └── test-1.spec.ts
+├── cmg-cm/              # CMG Configuration Manager tests
+│   └── CMG-CM-login.spec.ts
+└── ContactProfiles-CMGCM.spec.ts  # Contact Profiles test (fully parameterized)
 
 config/
 ├── cmg-dm/              # CMG Directory Manager configuration
@@ -25,23 +26,75 @@ config/
 │   ├── test-helpers.ts  # High-level test workflows
 │   └── README.md        # CMG.DM specific documentation
 └── cmg-cm/              # CMG Configuration Manager configuration
-    ├── locators.ts      # Element selectors
+    ├── locators.ts      # Element selectors (updated with Contact Profiles)
     ├── page-objects.ts  # Page Object Model
     ├── test-config.ts   # Test configuration and data
-    └── test-helpers.ts  # High-level test workflows
+    ├── test-helpers.ts  # High-level test workflows
+    ├── contact-profiles-config.ts     # Contact Profiles configuration
+    ├── contact-profiles-page-objects.ts  # Contact Profiles page objects
+    └── contact-profiles-test-helpers.ts  # Contact Profiles test helpers
 ```
 
 ## Test Suites
 
 ### CMG Directory Manager (CMG.DM)
 - **URL**: `http://172.20.115.41/cmg.dm/`
-- **Tests**: User management, organization management, advanced search, keywords
-- **Configuration**: Fully parameterized with environment variable support.
+- **Tests**: User management, organization management, keywords
+- **Configuration**: Fully parameterized with environment variable support
 
 ### CMG Configuration Manager (CMG.CM)
 - **URL**: `http://172.20.115.41/cmg.cm/`
-- **Tests**: Basic login/logout functionality
-- **Configuration**: Parameterized configuration structure
+- **Tests**: Login/logout, Contact Profiles CRUD operations
+- **Configuration**: Fully parameterized with environment variable support
+
+### Contact Profiles Test (Fully Parameterized)
+- **File**: `ContactProfiles-CMGCM.spec.ts`
+- **Features**: 
+  - Complete CRUD workflow for Contact Profiles
+  - Fully configurable via environment variables
+  - Slow execution mode support
+  - Environment-specific configurations
+  - Robust error handling and timeouts
+
+## Configuration & Environment Variables
+
+### Setup Environment Variables
+1. Copy `.env.example` to `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Customize variables in `.env`:
+   ```bash
+   # Application URLs
+   CMG_CM_BASE_URL=http://172.20.115.41/cmg.cm/
+   
+   # Login Credentials
+   CMG_CM_USERNAME=niceadmin
+   CMG_CM_PASSWORD=aastra
+   
+   # Timeout Configuration (ms)
+   TIMEOUT_DEFAULT=5000
+   TIMEOUT_SLOW=3000
+   TIMEOUT_NAVIGATION=10000
+   
+   # Slow Mode (for debugging/demo)
+   SLOW_MODE_ENABLED=true
+   SLOW_MODE_MULTIPLIER=2.0
+   
+   # Test Data
+   CONTACT_PROFILE_NAME=AI R&D
+   CONTACT_PROFILE_PBX_TYPE=17
+   CONTACT_PROFILE_DESCRIPTION=test
+   
+   # Test Environment
+   TEST_ENV=development
+   ```
+
+### Environment-Specific Configurations
+- **development**: Enables slow mode, uses dev URLs
+- **testing**: Increases timeouts by 1.5x
+- **production**: Disables slow mode, uses prod URLs
 
 ## Running Tests
 
@@ -50,19 +103,29 @@ config/
 npx playwright test
 ```
 
-### Run specific test suite
+### Run Contact Profiles test specifically
 ```bash
-# CMG Directory Manager tests
-npx playwright test tests/cmg-dm/
-
-# CMG Configuration Manager tests
-npx playwright test tests/cmg-cm/
+npx playwright test ContactProfiles-CMGCM.spec.ts
 ```
 
-### Run specific test file
+### Run with specific environment
 ```bash
-npx playwright test tests/cmg-dm/delete-organization.spec.ts
-npx playwright test tests/cmg-cm/test-1.spec.ts
+TEST_ENV=production npx playwright test ContactProfiles-CMGCM.spec.ts
+```
+
+### Run in headed mode (see browser)
+```bash
+npx playwright test ContactProfiles-CMGCM.spec.ts --headed
+```
+
+### Run with slow mode enabled
+```bash
+SLOW_MODE_ENABLED=true npx playwright test ContactProfiles-CMGCM.spec.ts --headed
+```
+
+### Custom test data
+```bash
+CONTACT_PROFILE_NAME="Custom Profile" CONTACT_PROFILE_DESCRIPTION="Custom Description" npx playwright test ContactProfiles-CMGCM.spec.ts
 ```
 
 ## Environment Configuration
